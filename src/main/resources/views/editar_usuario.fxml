@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mpm.speakupdesk.controller.EditarUsuarioController"
+      prefWidth="400"
+      spacing="10"
+      style="-fx-padding: 20;
+      -fx-background-color: white"
+      stylesheets="@../css/dashboard.css">
+    <Label alignment="CENTER" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;" text="Editar Usuario" />
+    <VBox spacing="5">
+        <Label text="Nombre:" />
+        <TextField fx:id="txtNombre" />
+
+        <Label text="Apellido:" />
+        <TextField fx:id="txtApellido" />
+
+        <Label text="Email:" />
+        <TextField fx:id="txtEmail" />
+
+        <Label text="Nueva Contraseña:"/>
+        <PasswordField fx:id="pfNuevaContrasena"/>
+
+        <Label text="Estado:" />
+        <ComboBox fx:id="cbEstado">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ComboBox>
+    </VBox>
+
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button onAction="#cancelar" styleClass="btn-reporte" text="Cancelar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+        <Button onAction="#guardarCambios" styleClass="btn-reporte" text="Guardar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+    </HBox>
+</VBox>

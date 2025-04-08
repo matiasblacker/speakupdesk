@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="700" prefWidth="1200" styleClass="background" stylesheets="@../css/dashboard.css , @../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.AdminController">
+
+    <!-- Panel Lateral -->
+    <VBox prefWidth="200" styleClass="backslide" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
+
+        <Label style="-fx-font-size: 18px; -fx-padding: 20 0 20 0;" text="SpeakUP! ADMIN" textFill="WHITE">
+            <VBox.margin>
+                <Insets left="20" top="40" />
+            </VBox.margin>
+        </Label>
+
+        <VBox alignment="CENTER_LEFT" spacing="10">
+            <Separator opacity="0.27" orientation="HORIZONTAL" style="-fx-pref-width: 50px">
+            <VBox.margin><Insets left="10.0" right="10.0" /></VBox.margin>
+            </Separator>
+            <VBox>
+                <Label style="-fx-text-fill: #94abec" text="ACCIONES">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+                </Label>
+            </VBox>
+
+            <Button fx:id="btnCrearInstituto" onAction="#abrirModalCrearInstituto" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button, btn-hidden" text="Crear Instituto">
+                <graphic>
+                    <FontAwesomeIconView styleClass="icono" glyphName="BOOK" size="20" />
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            <VBox.margin>
+               <Insets left="10.0" />
+            </VBox.margin>
+            </Button>
+
+            <Button fx:id="btnCrearUsuario" graphicTextGap="10.0" onAction="#abrirModalCrearUsuario" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear usuarios">
+                <graphic>
+                    <FontAwesomeIconView styleClass="icono" glyphName="ADDRESS_BOOK" size="20" />
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            <VBox.margin>
+               <Insets left="10.0" />
+            </VBox.margin>
+            </Button>
+
+            <Button fx:id="btnCrearModulo" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear módulos">
+                <graphic>
+                    <FontAwesomeIconView styleClass="icono" glyphName="BOOK" size="20" />
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            <VBox.margin>
+               <Insets left="10.0" />
+            </VBox.margin>
+            </Button>
+
+            <Button fx:id="btnCrearAlumnos" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear alumnos">
+                <graphic>
+                    <FontAwesomeIconView styleClass="icono" glyphName="CHILD" size="20" />
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            <VBox.margin>
+               <Insets left="10.0" />
+            </VBox.margin>
+            </Button>
+            <Separator opacity="0.27" orientation="HORIZONTAL">
+            <VBox.margin><Insets left="10.0" right="10.0" /></VBox.margin>
+            </Separator>
+        </VBox>
+    </VBox>
+    <!-- Contenido Principal -->
+    <VBox spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+        <!-- top bar -->
+        <HBox alignment="CENTER_RIGHT" prefHeight="60" spacing="20" style="-fx-background-color: white" styleClass="sombra" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblRol" style="-fx-font-size: 14px; -fx-text-fill: #858796" />
+            <Separator orientation="VERTICAL">
+                <HBox.margin>
+                    <Insets top="15.0" />
+                </HBox.margin>
+                <padding>
+                    <Insets bottom="15.0" />
+                </padding></Separator>
+            <Label fx:id="lblNombre" style="-fx-font-size: 16px; -fx-text-fill: #858796" />
+            <Button fx:id="btnPerfil" style="-fx-background-color: transparent; -fx-padding: 20;" styleClass="btn-transparent">
+                <graphic>
+                    <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
+                        <image>
+                            <Image url="@../img/useradmin.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+        </HBox>
+
+        <VBox spacing="20" style="-fx-padding: 20;">
+            <!-- Título Dashboard -->
+            <HBox alignment="CENTER_LEFT" prefWidth="960.0">
+                <Label style="-fx-font-size: 27px;" text="Dashboard" />
+                <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" styleClass="btn-reporte" text="Generar Reporte">
+                    <graphic>
+                        <FontAwesomeIconView fill="rgba(255,255,255,.5)" glyphName="DOWNLOAD" size="15" />
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </HBox>
+
+            <!-- Tabla de Usuarios -->
+            <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 5;" styleClass="sombra">
+
+                <!-- Header tabla -->
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="960.0" spacing="10">
+                    <children>
+                        <Label style="-fx-font-size: 20px; -fx-text-fill: #4e73df; " text="Usuarios registrados">
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin></Label>
+                        <Separator orientation="VERTICAL">
+                            <HBox.margin>
+                                <Insets top="15.0" />
+                            </HBox.margin>
+                            <padding>
+                                <Insets bottom="15.0" />
+                            </padding></Separator>
+                        <Button mnemonicParsing="false" onAction="#ActualizarTablas" styleClass="btn-table" text="Actualizar">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </children>
+                   <VBox.margin>
+                      <Insets />
+                   </VBox.margin>
+                   <padding>
+                      <Insets bottom="20.0" top="10.0" />
+                   </padding>
+                </HBox>
+
+                <!-- TabPane para las tablas -->
+                <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                    <Tab text="Usuarios">
+                        <VBox spacing="10">
+                            <TableView fx:id="usuariosTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colId" prefWidth="60" text="ID" />
+                                    <TableColumn fx:id="colNombre" prefWidth="160.0" text="Nombre" />
+                                    <TableColumn fx:id="colEmail" prefWidth="181.0" text="Email" />
+                                    <TableColumn fx:id="colRol" prefWidth="139.0" text="Rol" />
+                                    <TableColumn fx:id="colEstado" prefWidth="86.0" text="Estado" />
+                                </columns>
+                                <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                </VBox.margin>
+                            </TableView>
+                            <!-- Paginación -->
+                            <Pagination fx:id="pagination" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
+                        </VBox>
+                    </Tab>
+                    <Tab text="Institutos">
+                        <VBox spacing="10">
+                            <!-- Tabla de Institutos -->
+                            <TableView fx:id="institutosTable" prefHeight="250.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colIdInstituto" prefWidth="60" text="ID" />
+                                    <TableColumn fx:id="colNombreInstituto" prefWidth="200.0" text="Nombre" />
+                                    <TableColumn fx:id="colRegion" prefWidth="150.0" text="Region" />
+                                    <TableColumn fx:id="colComuna" prefWidth="200.0" text="Comuna" />
+                                </columns>
+                                <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="10.0" />
+                                </VBox.margin>
+                            </TableView>
+                            <!-- Paginación -->
+                            <Pagination fx:id="paginationInstitutos" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
+                        </VBox>
+                    </Tab>
+                </TabPane>
+                <!-- Contenedor de alerta -->
+                <HBox fx:id="alertContainer" prefHeight="50" styleClass="alert-danger alert-text" visible="false" VBox.vgrow="SOMETIMES">
+                    <Label fx:id="alertLabel" styleClass="alert-text" />
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                </HBox>
+            </VBox>
+        </VBox>
+
+        <!-- Bottom bar - Fijado en la parte inferior -->
+        <HBox alignment="CENTER" prefHeight="80" spacing="20" style="-fx-background-color: white" styleClass="sombra">
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #858796" text="© 2025 SpeakUP! Desk" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #858796" text="Versión 1.0.0" />
+            <Separator orientation="VERTICAL">
+                <HBox.margin><Insets top="15.0" /></HBox.margin>
+                <padding><Insets bottom="15.0" /></padding>
+            </Separator>
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #858796" text="Desarrollador: matias.perez.sd94@gmail.com" />
+        </HBox>
+    </VBox>
+
+</AnchorPane>

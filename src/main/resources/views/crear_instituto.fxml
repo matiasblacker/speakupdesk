@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mpm.speakupdesk.controller.CrearInstitutoController"
+            prefWidth="400"
+            spacing="10"
+            style="-fx-padding: 20;
+            -fx-background-color: white"
+            stylesheets="@../css/dashboard.css">
+    <Label alignment="CENTER" text="Crear Nuevo Instituto" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;"/>
+
+    <VBox spacing="5">
+        <Label text="Nombre:"/>
+        <TextField fx:id="txtNombreInstituto"/>
+
+        <Label text="Región:"/>
+        <ComboBox fx:id="comboRegion" promptText="Seleccione una región"/>
+
+        <Label text="Comuna:"/>
+        <ComboBox fx:id="comboComuna" editable="true" promptText="Escriba o seleccione"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancelar" onAction="#cancelar" styleClass="btn-reporte">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button text="Crear" onAction="#crearInstituto" styleClass="btn-reporte">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </HBox>
+
+</VBox>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="212.0" prefWidth="197.0" spacing="15" styleClass="root" stylesheets="@../css/login.css , @../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.LoginController">
+    <!-- Título del panel -->
+    <ImageView fitHeight="80" fitWidth="80">
+        <image>
+            <Image url="@../img/usericon.png" />
+        </image>
+    </ImageView>
+    <Region prefHeight="20" />
+      <!-- Campo de email -->
+      <TextField fx:id="emailField" alignment="CENTER" promptText="Email" styleClass="text-field" />
+
+      <!-- Campo de contraseña -->
+      <PasswordField fx:id="passwordField" alignment="CENTER" promptText="Contraseña" styleClass="text-field" />
+
+      <!-- Botón de ingreso -->
+      <Region prefHeight="15" />
+      <Button onAction="#handleLogin" styleClass="btn-primary" text="Iniciar sesión" textFill="WHITE">
+      <font>
+         <Font size="14.0" />
+      </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
+    <!-- Contenedor de alerta -->
+    <HBox fx:id="alertContainer" styleClass="alert-danger alert-text" visible="false">
+        <Label fx:id="alertLabel" styleClass="alert-text" />
+    </HBox>
+</VBox>

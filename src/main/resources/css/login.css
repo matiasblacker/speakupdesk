@@ -1,0 +1,36 @@
+/* Estilos para el VBox principal */
+.root {
+    -fx-padding: 0 30 0 30;
+    -fx-alignment: center;
+    -fx-background-color: linear-gradient(to bottom, #2946E7, #03A9F4);
+}
+
+/* Estilos para los campos de texto */
+.text-field {
+    -fx-background-radius: 30px;  /* Radio para el fondo */
+    -fx-border-radius: 30px;       /* Radio para el borde */
+    -fx-padding: 5px 10px;
+    -fx-background-color: #D8FEFCFC;
+    -fx-text-fill: #030303;
+    -fx-font-size: 15px;
+}
+
+/* Estilos para el botón */
+.btn-primary {
+    -fx-margin-top:50px;
+    -fx-background-radius: 30px;  /* Radio para el fondo */
+    -fx-border-radius: 30px;       /* Radio para el borde */
+    -fx-background-color: #FF5722;
+    -fx-text-fill: white;
+    -fx-padding: 5px 15px;
+    -fx-max-width: infinity;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+}
+
+/* Estilos para la alerta */
+
+.text-field, .btn-primary {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 50px;
+}

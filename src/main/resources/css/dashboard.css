@@ -1,0 +1,99 @@
+/*Color gris de fondo*/
+.background {
+    -fx-background-color: #f8f9fc;
+}
+
+/*Estilos topbar - Boton del perfil */
+
+.btn-transparent {
+    -fx-background-color: transparent;
+}
+.btn-transparent:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos contenido principal - boton de reporte*/
+.btn-reporte{
+    -fx-background-color: #4e73df;
+    -fx-text-fill: white;
+}
+.btn-reporte:hover {
+    -fx-background-color: rgb(31, 87, 255);
+}
+
+/*Estilos Side Bar*/
+.backslide {
+    -fx-background-color: #4e73df;
+}
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(255,255,255,.5);
+    -fx-font-size: 15px;
+}
+.sidebar-button:hover {
+  -fx-text-fill: white;
+}
+.sidebar-button .icono{
+    -fx-fill: rgba(255,255,255,0.5);
+}
+.icono-btn-sidebar:hover .icono{
+    -fx-fill: white;
+}
+
+/* estilos de la tabla */
+/* botones para mostrar la diferentes tablas*/
+.btn-table{
+    -fx-background-color: transparent;
+    -fx-text-fill: #4e73df;
+}
+.table-view {
+    -fx-background-color: white;
+}
+.table-view .column-header {
+    -fx-background-color: #f8f9fc;
+    -fx-font-weight: bold;
+}
+.pagination .pagination-control {
+    -fx-text-fill: white;
+}
+/* estados de los usuarios */
+.estado-activo {
+    -fx-background-color: #4CAF50;
+}
+.estado-inactivo {
+    -fx-background-color: #f44336;
+}
+.estado-activo, .estado-inactivo{
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+    -fx-padding: 2px 5px; /* Espaciado alrededor del texto */
+    -fx-background-radius: 20px; /* Radio del borde redondeado */
+    -fx-border-radius: 20px; /* Radio del borde redondeado */
+    -fx-border-color: transparent; /* Sin borde visible */
+}
+/*boton de opciones de la celda*/
+.btn-opciones-celda{
+    -fx-alignment: CENTER;
+    -fx-cursor: hand;
+    -fx-pref-width: 30px;
+}
+.btn-opciones-celda:hover{
+    -fx-background-color: #4e73df;
+    -fx-text-fill: white;
+}
+
+/* Sombras generales*/
+.sombra{
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 30, 0.1, 0, 0);
+}
+
+/* Estilos para ocultar lso botones*/
+.btn-hidden {
+    -fx-opacity: 1;
+    -fx-transition: opacity 0.3s ease;
+}
+.btn-hidden:hidden {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
