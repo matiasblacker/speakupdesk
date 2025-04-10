@@ -1,4 +1,4 @@
-package com.mpm.speakupdesk.controller;
+package com.mpm.speakupdesk.controller.instituto;
 
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import com.mpm.speakupdesk.service.ComunaService;

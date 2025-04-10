@@ -1,4 +1,4 @@
-package com.mpm.speakupdesk.controller;
+package com.mpm.speakupdesk.controller.usuario;
 
 import com.mpm.speakupdesk.dto.response.LoginResponse;
 import javafx.fxml.FXML;

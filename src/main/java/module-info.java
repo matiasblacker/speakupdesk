@@ -18,4 +18,8 @@ module com.mpm.speakupdesk {
     exports com.mpm.speakupdesk;
     // Exporta el paquete del controlador para que FXMLLoader pueda acceder a él
     exports com.mpm.speakupdesk.controller to javafx.fxml;
+    exports com.mpm.speakupdesk.controller.instituto to javafx.fxml;
+    opens com.mpm.speakupdesk.controller.instituto to javafx.fxml;
+    exports com.mpm.speakupdesk.controller.usuario to javafx.fxml;
+    opens com.mpm.speakupdesk.controller.usuario to javafx.fxml;
 }

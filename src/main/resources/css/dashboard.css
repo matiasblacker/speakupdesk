@@ -41,6 +41,10 @@
 }
 
 /* estilos de la tabla */
+/*tab pane*/
+.tab-pane {
+    -fx-background-color: white !important; /* Color deseado */
+}
 /* botones para mostrar la diferentes tablas*/
 .btn-table{
     -fx-background-color: transparent;

@@ -1,4 +1,4 @@
-package com.mpm.speakupdesk.controller;
+package com.mpm.speakupdesk.controller.usuario;
 
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
@@ -14,16 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class EditarUsuarioController {
-    @FXML
-    private TextField txtNombre;
+    @FXML private TextField txtNombre;
     @FXML private TextField txtApellido;
     @FXML private TextField txtEmail;
     @FXML private ComboBox<String> cbEstado;
     @FXML private PasswordField pfNuevaContrasena;
 
-    private boolean esAdmin; // Indica si el usuario logueado es admin
     private boolean esAutoEdicion; // Indica si el usuario edita su propio perfil
-
     private boolean cambiarPassword = false;
     private Usuario usuario;
     private Stage stage;
@@ -44,7 +41,6 @@ public class EditarUsuarioController {
         txtEmail.setText(usuario.getEmail());
         cbEstado.getSelectionModel().select(usuario.isEnabled() ? "Activo" : "Inactivo");
 
-        // Verificar si es auto-edición
         // Verificar si es auto-edición usando AuthService existente
         LoginResponse usuarioLogueado = AuthService.getUsuarioLogueado();
         esAutoEdicion = usuario.getId().equals(usuarioLogueado.getId());
@@ -82,7 +78,6 @@ public class EditarUsuarioController {
                     return null;
                 });
     }
-
 
     private boolean validarCampos() {
         if (txtNombre.getText().isEmpty() ||

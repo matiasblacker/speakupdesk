@@ -34,9 +34,9 @@
                 </Label>
             </VBox>
 
-            <Button fx:id="btnCrearInstituto" onAction="#abrirModalCrearInstituto" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button, btn-hidden" text="Crear Instituto">
+            <Button fx:id="btnCrearInstituto" graphicTextGap="10.0" onAction="#abrirModalCrearInstituto" prefHeight="40" prefWidth="160" styleClass="sidebar-button, btn-hidden" text="Crear Instituto">
                 <graphic>
-                    <FontAwesomeIconView styleClass="icono" glyphName="BOOK" size="20" />
+                    <FontAwesomeIconView glyphName="BOOK" size="20" styleClass="icono" />
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
@@ -48,7 +48,7 @@
 
             <Button fx:id="btnCrearUsuario" graphicTextGap="10.0" onAction="#abrirModalCrearUsuario" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear usuarios">
                 <graphic>
-                    <FontAwesomeIconView styleClass="icono" glyphName="ADDRESS_BOOK" size="20" />
+                    <FontAwesomeIconView glyphName="ADDRESS_BOOK" size="20" styleClass="icono" />
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
@@ -60,7 +60,7 @@
 
             <Button fx:id="btnCrearModulo" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear módulos">
                 <graphic>
-                    <FontAwesomeIconView styleClass="icono" glyphName="BOOK" size="20" />
+                    <FontAwesomeIconView glyphName="BOOK" size="20" styleClass="icono" />
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
@@ -72,7 +72,7 @@
 
             <Button fx:id="btnCrearAlumnos" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear alumnos">
                 <graphic>
-                    <FontAwesomeIconView styleClass="icono" glyphName="CHILD" size="20" />
+                    <FontAwesomeIconView glyphName="CHILD" size="20" styleClass="icono" />
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
@@ -88,10 +88,8 @@
     </VBox>
     <!-- Contenido Principal -->
     <VBox spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-
         <!-- top bar -->
         <HBox alignment="CENTER_RIGHT" prefHeight="60" spacing="20" style="-fx-background-color: white" styleClass="sombra" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="lblRol" style="-fx-font-size: 14px; -fx-text-fill: #858796" />
             <Separator orientation="VERTICAL">
@@ -133,7 +131,6 @@
 
             <!-- Tabla de Usuarios -->
             <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 5;" styleClass="sombra">
-
                 <!-- Header tabla -->
                 <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="960.0" spacing="10">
                     <children>
@@ -163,8 +160,8 @@
                 </HBox>
 
                 <!-- TabPane para las tablas -->
-                <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                    <Tab text="Usuarios">
+                <TabPane fx:id="tabPane" styleClass="tab-pane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                    <Tab fx:id="tabUsuarios" text="Usuarios">
                         <VBox spacing="10">
                             <TableView fx:id="usuariosTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">
                                 <columns>
@@ -182,10 +179,10 @@
                             <Pagination fx:id="pagination" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
                         </VBox>
                     </Tab>
-                    <Tab text="Institutos">
+                    <Tab fx:id="tabInstitutos" text="Institutos">
                         <VBox spacing="10">
                             <!-- Tabla de Institutos -->
-                            <TableView fx:id="institutosTable" prefHeight="250.0" VBox.vgrow="ALWAYS">
+                            <TableView fx:id="institutosTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">
                                 <columns>
                                     <TableColumn fx:id="colIdInstituto" prefWidth="60" text="ID" />
                                     <TableColumn fx:id="colNombreInstituto" prefWidth="200.0" text="Nombre" />
@@ -193,12 +190,16 @@
                                     <TableColumn fx:id="colComuna" prefWidth="200.0" text="Comuna" />
                                 </columns>
                                 <VBox.margin>
-                                    <Insets left="20.0" right="20.0" top="10.0" />
+                                    <Insets left="20.0" right="20.0" />
                                 </VBox.margin>
                             </TableView>
                             <!-- Paginación -->
                             <Pagination fx:id="paginationInstitutos" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
                         </VBox>
+                    </Tab>
+                    <Tab fx:id="tabCursos" text="Cursos">
+                    </Tab>
+                    <Tab fx:id="tabAlumnos" text="Alumnos">
                     </Tab>
                 </TabPane>
                 <!-- Contenedor de alerta -->

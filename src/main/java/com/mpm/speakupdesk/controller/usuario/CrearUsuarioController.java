@@ -1,4 +1,4 @@
-package com.mpm.speakupdesk.controller;
+package com.mpm.speakupdesk.controller.usuario;
 
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
@@ -13,7 +13,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -181,8 +180,4 @@ public class CrearUsuarioController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-    //
-
-
 }

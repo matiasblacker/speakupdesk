@@ -24,7 +24,6 @@ public class AuthService {
                     .url(BASE_URL + "/login")
                     .post(body)
                     .build();
-
             try (Response response = client.newCall(httpRequest).execute()) {
                 System.out.println("Código de respuesta: " + response.code());
 
@@ -43,13 +42,8 @@ public class AuthService {
         }
     }
 
-
     public static void logout() {
         usuarioLogueado = null;
-    }
-
-    public static boolean isAuthenticated() {
-        return usuarioLogueado != null;
     }
 
     // Obtener datos del usuario logueado

@@ -6,7 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.mpm.speakupdesk.controller.CrearInstitutoController"
+            fx:controller="com.mpm.speakupdesk.controller.instituto.CrearInstitutoController"
             prefWidth="400"
             spacing="10"
             style="-fx-padding: 20;

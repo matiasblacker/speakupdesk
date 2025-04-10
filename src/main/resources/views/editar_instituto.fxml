@@ -6,9 +6,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.mpm.speakupdesk.controller.EditarInstitutoController"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mpm.speakupdesk.controller.instituto.EditarInstitutoController"
+      prefWidth="400"
+      spacing="10"
+      style="-fx-padding: 20;
+      -fx-background-color: white"
+      stylesheets="@../css/dashboard.css">
+    <Label alignment="CENTER" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;" text="Editar Instituto" />
+    <VBox spacing="5">
+        <Label text="Nombre:" />
+        <TextField fx:id="txtNombreInstituto" />
 
-</AnchorPane>
+        <Label text="Región:"/>
+        <ComboBox fx:id="comboRegion" promptText="Seleccione una región"/>
+
+        <Label text="Comuna:"/>
+        <ComboBox fx:id="comboComuna" editable="true" promptText="Escriba o seleccione"/>
+    </VBox>
+
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button onAction="#cancelar" styleClass="btn-reporte" text="Cancelar">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor></Button>
+        <Button onAction="#guardarCambios" styleClass="btn-reporte" text="Guardar">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor></Button>
+    </HBox>
+
+</VBox>
