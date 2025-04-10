@@ -29,6 +29,10 @@ public class EditarUsuarioController {
     public void initialize() {
         // Configurar ComboBox
         cbEstado.setItems(FXCollections.observableArrayList("Activo", "Inactivo"));
+        // Añadir listener para detectar cambios en la contraseña
+        pfNuevaContrasena.textProperty().addListener((observable, oldValue, newValue) -> {
+            cambiarPassword = !newValue.isEmpty();
+        });
     }
 
     public void initData(Usuario usuario, Runnable onUpdate) {
@@ -54,24 +58,40 @@ public class EditarUsuarioController {
     @FXML
     private void guardarCambios() {
         if (!validarCampos()) return;
-        
+
         Usuario usuarioActualizado = new Usuario();
         usuarioActualizado.setId(usuario.getId());
         usuarioActualizado.setNombre(txtNombre.getText());
         usuarioActualizado.setApellido(txtApellido.getText());
         usuarioActualizado.setEmail(txtEmail.getText());
         usuarioActualizado.setEnabled(cbEstado.getValue().equals("Activo"));
+
+        System.out.println("Campo de contraseña: " + (pfNuevaContrasena.getText().isEmpty() ? "vacío" : "con valor"));
+        System.out.println("Variable cambiarPassword: " + cambiarPassword);
+
         // Solo enviar password si se cambia
-        if (cambiarPassword) {
+        if (!pfNuevaContrasena.getText().isEmpty()) {
+            int longitud = pfNuevaContrasena.getLength();
+
+            if (longitud < 8 || longitud > 16) {
+                CustomAlerts.mostrarError("La contraseña debe tener entre 8 y 16 caracteres.");
+                return; // <- Esto evita seguir si la contraseña es inválida
+            }
+
+            System.out.println("Actualizando contraseña para usuario: " + usuarioActualizado.getEmail());
             usuarioActualizado.setPassword(pfNuevaContrasena.getText());
         }
+
+        System.out.println("Datos a enviar: " + usuarioActualizado);
         UsuarioService.update(usuarioActualizado)
                 .thenAcceptAsync(updated -> Platform.runLater(() -> {
                     CustomAlerts.mostrarExito("Usuario actualizado con éxito");
+                    System.out.println("Usuario actualizado correctamente");
                     onUpdate.run();
                     stage.close();
                 }))
                 .exceptionally(e -> {
+                    System.err.println("Error al actualizar usuario: " + e.getCause().getMessage());
                     Platform.runLater(() ->
                             CustomAlerts.mostrarError("Error: " + e.getCause().getMessage())
                     );
@@ -84,7 +104,7 @@ public class EditarUsuarioController {
                 txtApellido.getText().isEmpty() ||
                 txtEmail.getText().isEmpty()) {
 
-            CustomAlerts.mostrarError("Campos obligatorios vacíos");
+            CustomAlerts.mostrarError("Por favor completa todos los campos obligatorios.");
             return false;
         }
         return true;

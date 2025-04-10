@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.Cursor?>
-<VBox xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.mpm.speakupdesk.controller.usuario.CrearUsuarioController"
-      prefWidth="400"
-      spacing="10"
-      style="-fx-padding: 20;
-      -fx-background-color: white"
-      stylesheets="@../css/dashboard.css">
+<VBox prefWidth="400" minHeight="400" spacing="10" style="-fx-padding: 20; -fx-background-color: white" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.usuario.CrearUsuarioController">
 
-    <Label alignment="CENTER" text="Crear Nuevo Usuario" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;"/>
+    <Label alignment="CENTER" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;" text="Crear Nuevo Usuario" />
 
-    <VBox spacing="5">
-        <Label text="Nombre:"/>
-        <TextField fx:id="txtNombre"/>
+    <VBox spacing="5" VBox.vgrow="ALWAYS">
+        <Label text="Nombre:" />
+        <TextField fx:id="txtNombre" />
 
-        <Label text="Apellido:"/>
-        <TextField fx:id="txtApellido"/>
+        <Label text="Apellido:" />
+        <TextField fx:id="txtApellido" />
 
-        <Label text="Email:"/>
-        <TextField fx:id="txtEmail"/>
+        <Label text="Email:" />
+        <TextField fx:id="txtEmail" />
 
-        <Label text="Rol:"/>
-        <ComboBox fx:id="cbRol"/>
-
+        <Label text="Rol:" />
+        <ComboBox fx:id="cbRol" />
         <!-- Campo de colegio (solo visible para ADMIN_GLOBAL creando ADMIN_COLEGIO) -->
-        <Label text="Colegio:" visible="${controller.mostrarCampoColegio}"/>
-        <ComboBox fx:id="cbColegio" visible="${controller.mostrarCampoColegio}"/>
+        <VBox fx:id="colegioContainer" spacing="5">
+            <Label text="Colegio:" />
+            <ComboBox fx:id="cbColegio" promptText="Seleccione una colegio"/>
+        </VBox>
+        <Region VBox.vgrow="ALWAYS" />
     </VBox>
-
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Cancelar" onAction="#cancelar" styleClass="btn-reporte">
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button onAction="#cancelar" styleClass="btn-reporte" text="Cancelar">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Button text="Crear" onAction="#crearUsuario" styleClass="btn-reporte">
+        <Button onAction="#crearUsuario" styleClass="btn-reporte" text="Crear">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>

@@ -9,7 +9,6 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="700" prefWidth="1200" styleClass="background" stylesheets="@../css/dashboard.css , @../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.AdminController">
-
     <!-- Panel Lateral -->
     <VBox prefWidth="200" styleClass="backslide" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
 
@@ -160,7 +159,7 @@
                 </HBox>
 
                 <!-- TabPane para las tablas -->
-                <TabPane fx:id="tabPane" styleClass="tab-pane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <Tab fx:id="tabUsuarios" text="Usuarios">
                         <VBox spacing="10">
                             <TableView fx:id="usuariosTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">

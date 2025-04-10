@@ -45,6 +45,9 @@
 .tab-pane {
     -fx-background-color: white !important; /* Color deseado */
 }
+.tab-pane .tab-header-area {
+    -fx-background-color: #f23b6f; /* tu color deseado */
+}
 /* botones para mostrar la diferentes tablas*/
 .btn-table{
     -fx-background-color: transparent;

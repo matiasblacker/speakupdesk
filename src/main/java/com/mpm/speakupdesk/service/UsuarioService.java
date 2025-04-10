@@ -82,6 +82,9 @@ public class UsuarioService {
             ObjectMapper mapper = new ObjectMapper();
 
             try {
+                // Log antes de crear el JSON
+                System.out.println("Actualizando usuario ID: " + usuario.getId());
+                System.out.println("¿Incluye contraseña? " + (usuario.getPassword() != null && !usuario.getPassword().isEmpty()));
                 // Convertir usuario a JSON
                 String jsonBody = mapper.writeValueAsString(crearRequestBody(usuario));
                 RequestBody body = RequestBody.create(

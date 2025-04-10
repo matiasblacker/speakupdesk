@@ -80,16 +80,29 @@ public class CrearUsuarioController {
             }
         });
         // Disparar el listener para configurar inicialmente
-        cbRol.fireEvent(new Event(javafx.event.Event.ANY));
+        // Configuración inicial
+        boolean mostrarColegio = (cbRol.getValue() == Rol.ADMIN_COLEGIO);
+        mostrarCampoColegio = mostrarColegio;
+        if (colegioContainer != null) {
+            colegioContainer.setVisible(mostrarColegio);
+            colegioContainer.setManaged(mostrarColegio);
+
+            // Cargar colegios si es necesario
+            if (mostrarColegio) {
+                cargarColegios();
+            }
+        }
     }
     private void cargarColegios() {
         ColegioService.findAll()
                 .thenAccept(colegios -> {
+                    System.out.println("Colegios cargados: " + colegios.size());
                     Platform.runLater(() -> {
                         cbColegio.setItems(FXCollections.observableArrayList(colegios));
                     });
                 })
                 .exceptionally(e -> {
+                    System.err.println("Error al cargar colegios: " + e.getMessage());
                     Platform.runLater(() ->
                             CustomAlerts.mostrarError("Error al cargar los colegios: " + e.getMessage())
                     );
