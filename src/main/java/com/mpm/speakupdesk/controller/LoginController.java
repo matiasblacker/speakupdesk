@@ -5,6 +5,7 @@ import com.mpm.speakupdesk.model.Rol;
 import com.mpm.speakupdesk.service.AuthService;
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,8 @@ public class LoginController {
     @FXML
     private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private TextField visiblePasswordField;
+    private boolean passwordVisible = false;
     @FXML private HBox alertContainer;
     @FXML private Label alertLabel;
 
@@ -48,8 +51,8 @@ public class LoginController {
                     String fxmlPath;
                     // Asignar la vista correspondiente según el rol
                     switch (rol) {
-                        case ADMIN_GLOBAL -> fxmlPath = "/views/admin.fxml";
-                        case ADMIN_COLEGIO -> fxmlPath = "/views/admin.fxml";
+                        case ADMIN_GLOBAL -> fxmlPath = "/views/dashboard/admin.fxml";
+                        case ADMIN_COLEGIO -> fxmlPath = "/views/dashboard/admin.fxml";
                         default -> {
                             CustomAlerts.mostrarError("Rol no válido: " + rol);
                             return;
@@ -84,4 +87,30 @@ public class LoginController {
             });
         }).start();
     }
+
+    @FXML
+    public void togglePasswordVisibility(ActionEvent actionEvent) {
+        passwordVisible = !passwordVisible;
+
+        if (passwordVisible) {
+            String password = passwordField.getText();
+            visiblePasswordField.setText(password);
+
+            visiblePasswordField.setVisible(true);
+            visiblePasswordField.setManaged(true);
+
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+        } else {
+            String password = visiblePasswordField.getText();
+            passwordField.setText(password);
+
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+
+            visiblePasswordField.setVisible(false);
+            visiblePasswordField.setManaged(false);
+        }
+    }
+
 }

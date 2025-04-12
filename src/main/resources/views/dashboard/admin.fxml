@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700" prefWidth="1200" styleClass="background" stylesheets="@../css/dashboard.css , @../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.AdminController">
+<AnchorPane prefHeight="700" prefWidth="1200" styleClass="background" stylesheets="@../../css/dashboard.css , @../../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.AdminController">
     <!-- Panel Lateral -->
     <VBox prefWidth="200" styleClass="backslide" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
 
@@ -103,7 +103,7 @@
                 <graphic>
                     <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
                         <image>
-                            <Image url="@../img/useradmin.png" />
+                            <Image url="@../../img/useradmin.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -118,7 +118,7 @@
             <HBox alignment="CENTER_LEFT" prefWidth="960.0">
                 <Label style="-fx-font-size: 27px;" text="Dashboard" />
                 <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
-                <Button mnemonicParsing="false" styleClass="btn-reporte" text="Generar Reporte">
+                <Button mnemonicParsing="false" prefHeight="40.0" styleClass="btn-reporte" text="Generar Reporte">
                     <graphic>
                         <FontAwesomeIconView fill="rgba(255,255,255,.5)" glyphName="DOWNLOAD" size="15" />
                     </graphic>
@@ -129,9 +129,9 @@
             </HBox>
 
             <!-- Tabla de Usuarios -->
-            <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 5;" styleClass="sombra">
+            <VBox spacing="15" style="-fx-background-radius: 5px 5px 5px 5px; -fx-background-color: white" styleClass="sombra">
                 <!-- Header tabla -->
-                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="960.0" spacing="10">
+                <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="960.0" spacing="10.0" style="-fx-background-color: #f8f9fc; -fx-background-radius: 5px 5px 0 0; -fx-border-color:#e3e6f0; -fx-border-width: 0 0 2px 0;">
                     <children>
                         <Label style="-fx-font-size: 20px; -fx-text-fill: #4e73df; " text="Usuarios registrados">
                             <HBox.margin>
@@ -153,13 +153,10 @@
                    <VBox.margin>
                       <Insets />
                    </VBox.margin>
-                   <padding>
-                      <Insets bottom="20.0" top="10.0" />
-                   </padding>
                 </HBox>
 
                 <!-- TabPane para las tablas -->
-                <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                <TabPane fx:id="tabPane" prefWidth="944.0" styleClass="tab-header-background" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <Tab fx:id="tabUsuarios" text="Usuarios">
                         <VBox spacing="10">
                             <TableView fx:id="usuariosTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">
@@ -171,8 +168,11 @@
                                     <TableColumn fx:id="colEstado" prefWidth="86.0" text="Estado" />
                                 </columns>
                                 <VBox.margin>
-                                    <Insets left="20.0" right="20.0" />
+                                    <Insets top="10.0" />
                                 </VBox.margin>
+                        <columnResizePolicy>
+                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
                             </TableView>
                             <!-- Paginación -->
                             <Pagination fx:id="pagination" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
@@ -200,17 +200,20 @@
                     </Tab>
                     <Tab fx:id="tabAlumnos" text="Alumnos">
                     </Tab>
+                   <VBox.margin>
+                      <Insets bottom="15.0" left="15.0" right="15.0" />
+                   </VBox.margin>
                 </TabPane>
-                <!-- Contenedor de alerta -->
-                <HBox fx:id="alertContainer" prefHeight="50" styleClass="alert-danger alert-text" visible="false" VBox.vgrow="SOMETIMES">
-                    <Label fx:id="alertLabel" styleClass="alert-text" />
-                    <padding>
-                        <Insets left="20.0" right="20.0" />
-                    </padding>
-                </HBox>
-            </VBox>
-        </VBox>
 
+            </VBox>
+            <!-- Contenedor de alerta -->
+            <HBox fx:id="alertContainer" prefHeight="50" styleClass="alert-danger alert-text" visible="false" VBox.vgrow="SOMETIMES">
+                <Label fx:id="alertLabel" styleClass="alert-text" />
+                <padding>
+                    <Insets left="20.0" right="20.0" />
+                </padding>
+            </HBox>
+        </VBox>
         <!-- Bottom bar - Fijado en la parte inferior -->
         <HBox alignment="CENTER" prefHeight="80" spacing="20" style="-fx-background-color: white" styleClass="sombra">
             <Label style="-fx-font-size: 14px; -fx-text-fill: #858796" text="© 2025 SpeakUP! Desk" />

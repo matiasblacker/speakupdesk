@@ -160,10 +160,16 @@ public class CrearUsuarioController {
                     cerrarModal();
                 }))
                 .exceptionally(e -> {
-                    Platform.runLater(() ->
-                            CustomAlerts.mostrarError("Error: " +
-                                    (e.getCause() != null ? e.getCause().getMessage() : e.getMessage()))
-                    );
+                    Platform.runLater(() -> {
+                        String errorMsg = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+                        // Verificar si es un error de email duplicado
+                        if (errorMsg.contains("correo electrónico ya está registrado") ||
+                                errorMsg.contains("email ya está registrado")) {
+                            CustomAlerts.mostrarError("El email ingresado ya existe en el sistema. Por favor, utilice otro.");
+                        } else {
+                            CustomAlerts.mostrarError("Error: " + errorMsg);
+                        }
+                    });
                     return null;
                 });
     }

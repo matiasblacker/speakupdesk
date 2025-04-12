@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="400" spacing="10" style="-fx-padding: 20; -fx-background-color: white" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.alumno.CrearAlumnoController">
+
+    <Label alignment="CENTER" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;" text="Crear Nuevo Alumno" />
+
+    <VBox spacing="5">
+        <Label text="Nombre:" />
+        <TextField fx:id="txtNombreAlumno" />
+
+        <Label text="Apellido:" />
+        <TextField fx:id="txtApellidoAlumno" />
+
+        <Label text="N° lista:" />
+        <TextField fx:id="txtNumeroLista" />
+
+        <Label text="Curso:" />
+        <ComboBox fx:id="cbCurso" promptText="Seleccione un curso"/>
+
+    </VBox>
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button onAction="#cancelar" styleClass="btn-reporte" text="Cancelar">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button onAction="#crearAlumno" styleClass="btn-reporte" text="Crear">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </HBox>
+</VBox>

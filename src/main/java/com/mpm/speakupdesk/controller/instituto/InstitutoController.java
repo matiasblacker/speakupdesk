@@ -2,7 +2,6 @@ package com.mpm.speakupdesk.controller.instituto;
 
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import com.mpm.speakupdesk.model.Colegio;
-import com.mpm.speakupdesk.service.AuthService;
 import com.mpm.speakupdesk.service.ColegioService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -16,9 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.List;
@@ -150,7 +146,7 @@ public class InstitutoController {
 
     public void abrirModalCrearInstituto(Stage parentStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/crear_instituto.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/instituto/crear_instituto.fxml"));
             Parent root = loader.load();
 
             CrearInstitutoController controller = loader.getController();
@@ -192,7 +188,7 @@ public class InstitutoController {
 
     public void editarInstituto(Colegio colegio) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/editar_instituto.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/instituto/editar_instituto.fxml"));
             Parent root = loader.load();
 
             EditarInstitutoController controller = loader.getController();

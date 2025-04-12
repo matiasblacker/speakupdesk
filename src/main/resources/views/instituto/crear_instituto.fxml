@@ -11,7 +11,7 @@
             spacing="10"
             style="-fx-padding: 20;
             -fx-background-color: white"
-            stylesheets="@../css/dashboard.css">
+            stylesheets="@../../css/dashboard.css">
     <Label alignment="CENTER" text="Crear Nuevo Instituto" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;"/>
 
     <VBox spacing="5">

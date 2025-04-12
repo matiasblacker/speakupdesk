@@ -101,6 +101,7 @@ public class UsuarioService {
                         return mapper.readValue(response.body().string(), Usuario.class);
                     } else {
                         String errorBody = response.body().string();
+                        System.out.println(errorBody);
                         throw new IOException("Error al actualizar: " + errorBody);
                     }
                 }

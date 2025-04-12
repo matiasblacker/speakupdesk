@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -96,7 +97,7 @@ public class UsuarioController {
     public void abrirPerfil() {
         System.out.println("Abrir perfil...");
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/perfil_usuario.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/usuario/perfil_usuario.fxml"));
             Parent root = loader.load();
 
             PerfilUsuarioController controller = loader.getController();
@@ -236,7 +237,7 @@ public class UsuarioController {
 
     public void abrirModalCrearUsuario(Stage parentStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/crear_usuario.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/usuario/crear_usuario.fxml"));
             Parent root = loader.load();
 
             CrearUsuarioController controller = loader.getController();
@@ -259,7 +260,7 @@ public class UsuarioController {
 
     private void editarUsuario(Usuario usuario) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/editar_usuario.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/usuario/editar_usuario.fxml"));
             Parent root = loader.load();
 
             EditarUsuarioController controller = loader.getController();

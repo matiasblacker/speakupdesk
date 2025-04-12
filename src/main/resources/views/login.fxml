@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="212.0" prefWidth="197.0" spacing="15" styleClass="root" stylesheets="@../css/login.css , @../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.LoginController">
+<VBox alignment="CENTER" spacing="15" styleClass="root" stylesheets="@../css/login.css , @../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.LoginController">
     <!-- Título del panel -->
     <ImageView fitHeight="80" fitWidth="80">
         <image>
@@ -14,21 +14,40 @@
         </image>
     </ImageView>
     <Region prefHeight="20" />
-      <!-- Campo de email -->
-      <TextField fx:id="emailField" alignment="CENTER" promptText="Email" styleClass="text-field" />
+    <!-- Campo de email -->
+    <TextField fx:id="emailField" alignment="CENTER" promptText="Email" styleClass="text-field" />
 
-      <!-- Campo de contraseña -->
-      <PasswordField fx:id="passwordField" alignment="CENTER" promptText="Contraseña" styleClass="text-field" />
+    <!-- Campo de contraseña con botón ojo -->
+    <HBox spacing="5" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+        <StackPane HBox.hgrow="ALWAYS">
+            <PasswordField fx:id="passwordField" alignment="CENTER" promptText="Contraseña" styleClass="password-field" StackPane.alignment="CENTER" />
+            <!-- Campo visible: contraseña en texto normal -->
+            <TextField fx:id="visiblePasswordField" alignment="CENTER" promptText="Contraseña" styleClass="password-field"  visible="false" managed="false" StackPane.alignment="CENTER"/>
+        </StackPane>
+        <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefWidth="50" prefHeight="50" styleClass="btn-eye">
+            <graphic>
+                <ImageView fitHeight="39.0" fitWidth="40.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/eye.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </HBox>
 
-      <!-- Botón de ingreso -->
-      <Region prefHeight="15" />
-      <Button onAction="#handleLogin" styleClass="btn-primary" text="Iniciar sesión" textFill="WHITE">
-      <font>
-         <Font size="14.0" />
-      </font>
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor></Button>
+    <!-- Botón de ingreso -->
+    <Region prefHeight="15" />
+    <Button onAction="#handleLogin" styleClass="btn-primary" text="Iniciar sesión" textFill="WHITE">
+        <font>
+            <Font size="14.0" />
+        </font>
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </Button>
     <!-- Contenedor de alerta -->
     <HBox fx:id="alertContainer" styleClass="alert-danger alert-text" visible="false">
         <Label fx:id="alertLabel" styleClass="alert-text" />
