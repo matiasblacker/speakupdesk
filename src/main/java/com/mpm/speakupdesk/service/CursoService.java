@@ -13,17 +13,16 @@ import java.util.concurrent.CompletionException;
 
 public class CursoService {
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final OkHttpClient client = new OkHttpClient();
     private static final String API_URL = "http://localhost:8080/api/cursos";
 
     //Crear cursos
     public static CompletableFuture<Curso> save(Curso curso){
         return CompletableFuture.supplyAsync(() ->{
-            OkHttpClient client = new OkHttpClient();
             try{
                 Map<String , Object> requestBody = new HashMap<>();
                 requestBody.put("nombre", curso.getNombre());
-                requestBody.put("colegio", curso.getColegioId());
-
+                //el colegio lo toma desde el usuario
                 String jsonBody = mapper.writeValueAsString(requestBody);
                 RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json"));
 
@@ -34,7 +33,7 @@ public class CursoService {
                         .build();
 
                 try(Response response = client.newCall(request).execute()){
-                    if(response.isSuccessful()){
+                    if(response.isSuccessful()&& response.body() != null){
                         return mapper.readValue(response.body().string(), Curso.class);
                     }else{
                         String errorBody = response.body().string();
@@ -51,10 +50,11 @@ public class CursoService {
     //Actualizar curso
     public static CompletableFuture<Curso> update(Curso curso){
         return CompletableFuture.supplyAsync(() ->{
-            OkHttpClient client = new OkHttpClient();
-            ObjectMapper mapper = new ObjectMapper();
             try{
-                String jsonBody = mapper.writeValueAsString(crearRequestBody(curso));
+                Map<String, Object> requestBody = new HashMap<>();
+                requestBody.put("nombre", curso.getNombre());
+
+                String jsonBody = mapper.writeValueAsString(requestBody);
                 RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json"));
 
                 Request request = new Request.Builder()
@@ -64,11 +64,11 @@ public class CursoService {
                         .build();
 
                 try(Response response = client.newCall(request).execute()){
-                    if(response.isSuccessful()){
+                    if(response.isSuccessful() && response.body() != null){
                         return mapper.readValue(response.body().string(), Curso.class);
                     }else{
-                        String errorBody = response.body().string();
-                        throw new IOException("Error del servidor:" + errorBody);
+                        String errorBody = response.body() != null ? response.body().string() : "Sin respuesta";
+                        throw new IOException("Error del servidor:" + response.code() + errorBody);
                     }
                 }
             } catch (Exception e) {
@@ -78,16 +78,8 @@ public class CursoService {
         });
     }
 
-    private static Map<String, Object> crearRequestBody(Curso curso) {
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("nombre", curso.getNombre());
-        requestBody.put("colegio", curso.getColegioId());
-        return requestBody;
-    }
-
     public static CompletableFuture<List<Curso>> findAll(){
         return CompletableFuture.supplyAsync(() -> {
-            OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(API_URL)
                     .addHeader("Authorization", "Bearer " + AuthService.getToken())
@@ -102,6 +94,44 @@ public class CursoService {
             } catch (Exception e) {
                 throw new CompletionException("Error al obtener cursos", e);
             }
+        });
+    }
+
+    public static CompletableFuture<List<Curso>> findByColegioId(){
+        return CompletableFuture.supplyAsync(() -> {
+            Request request = new Request.Builder()
+                    .url(API_URL + "/colegio")  // Endpoint específico para cursos del colegio
+                    .addHeader("Authorization", "Bearer " + AuthService.getToken())
+                    .build();
+            try(Response response = client.newCall(request).execute()){
+                if (!response.isSuccessful()){
+                    throw new IOException("Error HTTP: " + response.code());
+                }
+                String jsonResponse = response.body().string();
+                return mapper.readValue(jsonResponse, new TypeReference<List<Curso>>() {});
+            } catch (Exception e) {
+                throw new CompletionException("Error al obtener cursos del colegio", e);
+            }
+        });
+    }
+    //eliminar
+    public static CompletableFuture<Void> delete(Long id){
+        return CompletableFuture.supplyAsync(()-> {
+            Request request = new Request.Builder()
+                    .url(API_URL + "/"+ id)
+                    .delete()
+                    .addHeader("Authorization", "Bearer " + AuthService.getToken())
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Error HTTP: " + response.code());
+                }
+                return null;
+            } catch (IOException e) {
+                throw new CompletionException("Error al eliminar modulo", e);
+            }
+
         });
     }
 }

@@ -57,14 +57,6 @@ public class EditarInstitutoController {
         comboRegion.setItems(regiones);
     }
 
-    private void seleccionarRegionYComuna() {
-        String region = colegio.getRegion();
-        if (comboRegion.getItems().contains(region)) {
-            comboRegion.getSelectionModel().select(region);
-            // La comuna se seleccionará automáticamente en actualizarComunas()
-        }
-    }
-
     private void actualizarComunas(String region) {
         if (region != null) {
             // Obtener las comunas para la región seleccionada

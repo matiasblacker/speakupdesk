@@ -1,9 +1,11 @@
 package com.mpm.speakupdesk.controller;
 
 import com.mpm.speakupdesk.controller.instituto.InstitutoController;
+import com.mpm.speakupdesk.controller.modulo.ModuloController;
 import com.mpm.speakupdesk.controller.usuario.UsuarioController;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
 import com.mpm.speakupdesk.model.Colegio;
+import com.mpm.speakupdesk.model.Curso;
 import com.mpm.speakupdesk.model.Rol;
 import com.mpm.speakupdesk.model.Usuario;
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
@@ -27,7 +29,7 @@ public class AdminController {
     @FXML private TabPane tabPane;
     @FXML private Tab tabUsuarios;
     @FXML private Tab tabInstitutos;
-    @FXML private Tab tabCursos;
+    @FXML private Tab tabModulos;
     @FXML private Tab tabAlumnos;
     @FXML private Button btnCrearUsuario;
     @FXML private Button btnCrearInstituto;
@@ -49,6 +51,11 @@ public class AdminController {
     @FXML private TableColumn<Colegio, String> colRegion;
     @FXML private TableColumn<Colegio, String> colComuna;
     @FXML private Pagination paginationInstitutos;
+    //tabla modulos
+    @FXML private TableView<Curso> modulosTable;
+    @FXML private TableColumn<Curso, Long> colIdModulo;
+    @FXML private TableColumn<Curso, String> colNombreModulo;
+    @FXML private Pagination paginationModulo;
 
     // para ocultar botones y elementos de acuerdo al rol
     private static final PseudoClass HIDDEN_PSEUDO_CLASS = PseudoClass.getPseudoClass("hidden");
@@ -60,6 +67,7 @@ public class AdminController {
     // Controladores
     private UsuarioController usuarioController;
     private InstitutoController institutoController;
+    private ModuloController moduloController;
     //inicializacion de componentes
     public void initialize() {
         //menu de usuario, perfil y cerrar sesion
@@ -67,6 +75,7 @@ public class AdminController {
         // Inicializar controladores
         usuarioController = new UsuarioController(usuariosTable, colId, colNombre, colEmail, colRol, colEstado, pagination);
         institutoController = new InstitutoController(institutosTable, colIdInstituto, colNombreInstituto, colRegion, colComuna, paginationInstitutos);
+        moduloController = new ModuloController(modulosTable,colIdModulo,colNombreModulo,paginationModulo);
         //carga la alertas
         CustomAlerts.setAlertComponents(alertContainer, alertLabel);
         // Listener para cambio de tab
@@ -75,6 +84,8 @@ public class AdminController {
                 usuarioController.loadUsuarios();
             } else if (newTab.getText().equals("Institutos")) {
                 institutoController.loadInstitutos();
+            } else if (newTab.getText().equals("Módulos")) {
+                moduloController.loadModulos();
             }
         });
     }
@@ -133,9 +144,20 @@ public class AdminController {
     public void abrirModalCrearUsuario(ActionEvent actionEvent) {
         usuarioController.abrirModalCrearUsuario(stage);
     }
+    @FXML
+    public void abrirModalCrearModulo(ActionEvent actionEvent) {
+        moduloController.setUsuarioLogueado(usuarioLogueado);
+        moduloController.abrirModalCrearModulo(stage);
+    }
+
     public void ActualizarTablas(ActionEvent actionEvent) {
-        usuarioController.loadUsuarios();
-        institutoController.loadInstitutos();
+        if (usuarioLogueado.getRol() == Rol.ADMIN_GLOBAL){
+            usuarioController.loadUsuarios();
+            institutoController.loadInstitutos();
+        } else if (usuarioLogueado.getRol() == Rol.ADMIN_COLEGIO) {
+            usuarioController.loadUsuarios();
+            moduloController.loadModulos();
+        }
         System.out.println("tablas actualizadas");
         CustomAlerts.mostrarExito("Tablas actualizadas");
     }
@@ -144,26 +166,30 @@ public class AdminController {
     private void configurarUi() {
         if (usuarioLogueado.getRol() == Rol.ADMIN_GLOBAL) {
             //botones sidebar
-            updateButtonVisibility(btnCrearInstituto, true);
-            updateButtonVisibility(btnCrearModulo, false);
-            updateButtonVisibility(btnCrearAlumnos, false);
+            updateButtonVisibility(btnCrearInstituto,tabInstitutos,tabPane, true);
+            updateButtonVisibility(btnCrearModulo,tabModulos,tabPane, false);
+            updateButtonVisibility(btnCrearAlumnos,tabAlumnos,tabPane, false);
         } else if (usuarioLogueado.getRol() == Rol.ADMIN_COLEGIO) {
             //botones sidebar
-            updateButtonVisibility(btnCrearModulo, true);
-            updateButtonVisibility(btnCrearAlumnos,true);
-            updateButtonVisibility(btnCrearInstituto, false);
+            updateButtonVisibility(btnCrearModulo,tabModulos,tabPane, true);
+            updateButtonVisibility(btnCrearAlumnos,tabAlumnos,tabPane,true);
+            updateButtonVisibility(btnCrearInstituto,tabInstitutos,tabPane,false);
         } else {
-            updateButtonVisibility(btnCrearInstituto,false);
-            updateButtonVisibility(btnCrearModulo,false);
-            updateButtonVisibility(btnCrearAlumnos, false);
-            updateButtonVisibility(btnCrearUsuario, false);
+            updateButtonVisibility(btnCrearInstituto,tabInstitutos,tabPane,false);
+            updateButtonVisibility(btnCrearModulo,tabModulos,tabPane,false);
+            updateButtonVisibility(btnCrearAlumnos,tabAlumnos,tabPane, false);
+            updateButtonVisibility(btnCrearUsuario,tabUsuarios,tabPane, false);
         }
     }
-    private void updateButtonVisibility(Button button, boolean visible) {
+    private void updateButtonVisibility(Button button,Tab tab, TabPane tabPane, boolean visible) {
         button.setVisible(visible);
         button.setManaged(visible); // Opcional: Libera espacio si es false
         button.pseudoClassStateChanged(HIDDEN_PSEUDO_CLASS, !visible);
+
+        if (visible && !tabPane.getTabs().contains(tab)) {
+            tabPane.getTabs().add(tab);
+        } else if (!visible) {
+            tabPane.getTabs().remove(tab);
+        }
     }
-
-
 }

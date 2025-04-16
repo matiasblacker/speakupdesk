@@ -27,8 +27,8 @@ public class Curso {
         this.nombre = nombre;
     }
 
-    public Long getColegioId() {
-        return colegioId;
+    public Long getColegioId(Long colegioId) {
+        return this.colegioId;
     }
 
     public void setColegioId(Long colegioId) {

@@ -1,6 +1,7 @@
 package com.mpm.speakupdesk.controller.usuario;
 
 import com.mpm.speakupdesk.dto.response.LoginResponse;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -26,5 +27,9 @@ public class PerfilUsuarioController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void actualizarPerfil(ActionEvent actionEvent) {
+
     }
 }

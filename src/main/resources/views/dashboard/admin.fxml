@@ -57,7 +57,7 @@
             </VBox.margin>
             </Button>
 
-            <Button fx:id="btnCrearModulo" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear módulos">
+            <Button fx:id="btnCrearModulo" onAction="#abrirModalCrearModulo" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear módulos">
                 <graphic>
                     <FontAwesomeIconView glyphName="BOOK" size="20" styleClass="icono" />
                 </graphic>
@@ -196,9 +196,39 @@
                             <Pagination fx:id="paginationInstitutos" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
                         </VBox>
                     </Tab>
-                    <Tab fx:id="tabCursos" text="Cursos">
+                    <Tab fx:id="tabModulos" text="Módulos">
+                        <VBox spacing="10">
+                            <!-- Tabla de Módulos -->
+                            <TableView fx:id="modulosTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colIdModulo" prefWidth="60" text="ID" />
+                                    <TableColumn fx:id="colNombreModulo" prefWidth="200.0" text="Nombre" />
+                                </columns>
+                                <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                </VBox.margin>
+                            </TableView>
+                            <!-- Paginación -->
+                            <Pagination fx:id="paginationModulo" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
+                        </VBox>
                     </Tab>
                     <Tab fx:id="tabAlumnos" text="Alumnos">
+                        <VBox spacing="10">
+                            <!-- Tabla de Alumnos -->
+                            <TableView fx:id="alumnosTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colIdAlumno" prefWidth="60" text="ID" />
+                                    <TableColumn fx:id="colNombreAlumno" prefWidth="200.0" text="Nombre" />
+                                    <TableColumn fx:id="colNumeroLista" prefWidth="150.0" text="N˚Lista" />
+                                    <TableColumn fx:id="colModulo" prefWidth="200.0" text="Modulo" />
+                                </columns>
+                                <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                </VBox.margin>
+                            </TableView>
+                            <!-- Paginación -->
+                            <Pagination fx:id="paginationAlumnos" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
+                        </VBox>
                     </Tab>
                    <VBox.margin>
                       <Insets bottom="15.0" left="15.0" right="15.0" />

@@ -28,6 +28,11 @@
         <Label fx:id="lblColegio"/>
     </VBox>
     <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Actualizar perfil" onAction="#actualizarPerfil" styleClass="btn-reporte">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
         <Button text="Cerrar" onAction="#cerrarModal" styleClass="btn-reporte">
             <cursor>
                 <Cursor fx:constant="HAND" />
