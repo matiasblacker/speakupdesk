@@ -146,6 +146,25 @@ public class ModuloController {
 
     //cargar la lsita de alumnos en el curso
     private void verListaModulo(Curso curso) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/modulo/alumnos_modulo.fxml"));
+            Parent root = loader.load();
+
+            AlumnosModuloController controller = loader.getController();
+            controller.initData(curso);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(curso.getNombre());
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            controller.setStage(stage);
+            stage.showAndWait();
+        } catch (IOException e) {
+            CustomAlerts.mostrarError("Error al cargar la ventana de alumnos: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void abrirModalCrearModulo(Stage parentStage){

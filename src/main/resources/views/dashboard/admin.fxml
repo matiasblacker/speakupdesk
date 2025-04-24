@@ -33,52 +33,81 @@
                 </Label>
             </VBox>
 
-            <Button fx:id="btnCrearInstituto" graphicTextGap="10.0" onAction="#abrirModalCrearInstituto" prefHeight="40" prefWidth="160" styleClass="sidebar-button, btn-hidden" text="Crear Instituto">
+            <Button fx:id="btnCrearInstituto" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearInstituto" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button, btn-hidden">
                 <graphic>
-                    <FontAwesomeIconView glyphName="BOOK" size="20" styleClass="icono" />
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="BOOK" size="20" styleClass="icono" />
+                        <Label styleClass="btn-text" text="Crear Instituto">
+                            <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                    </HBox>
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
-            <VBox.margin>
-               <Insets left="10.0" />
-            </VBox.margin>
             </Button>
 
-            <Button fx:id="btnCrearUsuario" graphicTextGap="10.0" onAction="#abrirModalCrearUsuario" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear usuarios">
+            <Button fx:id="btnCrearUsuario" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearUsuario" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
                 <graphic>
-                    <FontAwesomeIconView glyphName="ADDRESS_BOOK" size="20" styleClass="icono" />
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="ADDRESS_BOOK" size="20" styleClass="icono" />
+                        <Label styleClass="btn-text" text="Crear Usuario">
+                            <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                    </HBox>
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
-            <VBox.margin>
-               <Insets left="10.0" />
-            </VBox.margin>
+
             </Button>
 
-            <Button fx:id="btnCrearModulo" onAction="#abrirModalCrearModulo" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear módulos">
+            <Button fx:id="btnCrearModulo" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearModulo" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
                 <graphic>
-                    <FontAwesomeIconView glyphName="BOOK" size="20" styleClass="icono" />
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="BOOK" size="20" styleClass="icono" />
+                        <Label styleClass="btn-text" text="Crear Módulo">
+                            <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                    </HBox>
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
-            <VBox.margin>
-               <Insets left="10.0" />
-            </VBox.margin>
             </Button>
 
-            <Button fx:id="btnCrearAlumnos" graphicTextGap="10.0" prefHeight="40" prefWidth="160" styleClass="sidebar-button" text="Crear alumnos">
+            <Button fx:id="btnCrearAlumnos" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearAlumno" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
                 <graphic>
-                    <FontAwesomeIconView glyphName="CHILD" size="20" styleClass="icono" />
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="CHILD" size="20" styleClass="icono" />
+                        <Label styleClass="btn-text" text="Crear Alumnos">
+                            <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                    </HBox>
                 </graphic>
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
-            <VBox.margin>
-               <Insets left="10.0" />
-            </VBox.margin>
             </Button>
             <Separator opacity="0.27" orientation="HORIZONTAL">
             <VBox.margin><Insets left="10.0" right="10.0" /></VBox.margin>
@@ -133,7 +162,7 @@
                 <!-- Header tabla -->
                 <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="960.0" spacing="10.0" style="-fx-background-color: #f8f9fc; -fx-background-radius: 5px 5px 0 0; -fx-border-color:#e3e6f0; -fx-border-width: 0 0 2px 0;">
                     <children>
-                        <Label style="-fx-font-size: 20px; -fx-text-fill: #4e73df; " text="Usuarios registrados">
+                        <Label style="-fx-font-size: 20px; -fx-text-fill: #4e73df;" fx:id="lblRegistros">
                             <HBox.margin>
                                 <Insets left="20.0" />
                             </HBox.margin></Label>
@@ -242,6 +271,9 @@
                 <padding>
                     <Insets left="20.0" right="20.0" />
                 </padding>
+            <VBox.margin>
+               <Insets bottom="10.0" top="10.0" />
+            </VBox.margin>
             </HBox>
         </VBox>
         <!-- Bottom bar - Fijado en la parte inferior -->

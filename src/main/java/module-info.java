@@ -24,4 +24,6 @@ module com.mpm.speakupdesk {
     opens com.mpm.speakupdesk.controller.usuario to javafx.fxml;
     exports com.mpm.speakupdesk.controller.modulo to javafx.fxml;
     opens com.mpm.speakupdesk.controller.modulo to javafx.fxml;
+    exports com.mpm.speakupdesk.controller.alumno to javafx.fxml;
+    opens com.mpm.speakupdesk.controller.alumno to javafx.fxml;
 }

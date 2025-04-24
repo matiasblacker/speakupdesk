@@ -1,13 +1,11 @@
 package com.mpm.speakupdesk.controller;
 
+import com.mpm.speakupdesk.controller.alumno.AlumnoController;
 import com.mpm.speakupdesk.controller.instituto.InstitutoController;
 import com.mpm.speakupdesk.controller.modulo.ModuloController;
 import com.mpm.speakupdesk.controller.usuario.UsuarioController;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
-import com.mpm.speakupdesk.model.Colegio;
-import com.mpm.speakupdesk.model.Curso;
-import com.mpm.speakupdesk.model.Rol;
-import com.mpm.speakupdesk.model.Usuario;
+import com.mpm.speakupdesk.model.*;
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
@@ -24,6 +22,7 @@ public class AdminController {
     @FXML private Button btnPerfil;
     @FXML private HBox alertContainer;
     @FXML private Label alertLabel;
+    @FXML private Label lblRegistros;
 
     //tabpane
     @FXML private TabPane tabPane;
@@ -57,6 +56,14 @@ public class AdminController {
     @FXML private TableColumn<Curso, String> colNombreModulo;
     @FXML private Pagination paginationModulo;
 
+    //tabla alumnos
+    @FXML private TableView<Alumno> alumnosTable;
+    @FXML private TableColumn<Alumno, Long> colIdAlumno;
+    @FXML private TableColumn<Alumno, String> colNombreAlumno;
+    @FXML private TableColumn<Alumno, String> colNumeroLista;
+    @FXML private TableColumn<Alumno, String> colModulo;
+    @FXML private Pagination paginationAlumnos;
+
     // para ocultar botones y elementos de acuerdo al rol
     private static final PseudoClass HIDDEN_PSEUDO_CLASS = PseudoClass.getPseudoClass("hidden");
     // Datos y estado
@@ -68,6 +75,7 @@ public class AdminController {
     private UsuarioController usuarioController;
     private InstitutoController institutoController;
     private ModuloController moduloController;
+    private AlumnoController alumnoController;
     //inicializacion de componentes
     public void initialize() {
         //menu de usuario, perfil y cerrar sesion
@@ -76,16 +84,24 @@ public class AdminController {
         usuarioController = new UsuarioController(usuariosTable, colId, colNombre, colEmail, colRol, colEstado, pagination);
         institutoController = new InstitutoController(institutosTable, colIdInstituto, colNombreInstituto, colRegion, colComuna, paginationInstitutos);
         moduloController = new ModuloController(modulosTable,colIdModulo,colNombreModulo,paginationModulo);
+        alumnoController = new AlumnoController(alumnosTable,colIdAlumno,colNombreAlumno,colNumeroLista,colModulo,paginationAlumnos);
         //carga la alertas
         CustomAlerts.setAlertComponents(alertContainer, alertLabel);
+        lblRegistros.setText("Usuarios registrados");
         // Listener para cambio de tab
         tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
             if (newTab.getText().equals("Usuarios")) {
+                lblRegistros.setText("Usuarios registrados");
                 usuarioController.loadUsuarios();
             } else if (newTab.getText().equals("Institutos")) {
+                lblRegistros.setText("Institutos registrados");
                 institutoController.loadInstitutos();
             } else if (newTab.getText().equals("Módulos")) {
+                lblRegistros.setText("Módulos registrados");
                 moduloController.loadModulos();
+            }else if(newTab.getText().equals("Alumnos")){
+                lblRegistros.setText("Alumnos registrados");
+                alumnoController.loadAlumnos();
             }
         });
     }
@@ -150,6 +166,12 @@ public class AdminController {
         moduloController.abrirModalCrearModulo(stage);
     }
 
+    @FXML
+    public void abrirModalCrearAlumno(ActionEvent actionEvent){
+        alumnoController.setUsuarioLogueado(usuarioLogueado);
+        alumnoController.abrirModalCrearAlumno(stage);
+    }
+
     public void ActualizarTablas(ActionEvent actionEvent) {
         if (usuarioLogueado.getRol() == Rol.ADMIN_GLOBAL){
             usuarioController.loadUsuarios();
@@ -157,6 +179,7 @@ public class AdminController {
         } else if (usuarioLogueado.getRol() == Rol.ADMIN_COLEGIO) {
             usuarioController.loadUsuarios();
             moduloController.loadModulos();
+            alumnoController.loadAlumnos();
         }
         System.out.println("tablas actualizadas");
         CustomAlerts.mostrarExito("Tablas actualizadas");

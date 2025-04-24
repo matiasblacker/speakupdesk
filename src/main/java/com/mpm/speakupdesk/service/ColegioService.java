@@ -76,8 +76,6 @@ public class ColegioService {
     }
     public static CompletableFuture<Colegio> update(Colegio colegio) {
         return CompletableFuture.supplyAsync(() -> {
-            OkHttpClient client = new OkHttpClient();
-            ObjectMapper mapper = new ObjectMapper();
             try {
                 // Convertir usuario a JSON
                 String jsonBody = mapper.writeValueAsString(crearRequestBody(colegio));

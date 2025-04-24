@@ -26,10 +26,8 @@
         </StackPane>
         <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefWidth="50" prefHeight="50" styleClass="btn-eye">
             <graphic>
-                <ImageView fitHeight="39.0" fitWidth="40.0" preserveRatio="true">
-                    <image>
-                        <Image url="@../img/eye.png" />
-                    </image>
+                <ImageView fitHeight="39.0" fitWidth="40.0" preserveRatio="true" fx:id="imgEye">
+
                 </ImageView>
             </graphic>
             <cursor>

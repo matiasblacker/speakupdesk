@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -26,9 +28,14 @@ public class LoginController {
     private boolean passwordVisible = false;
     @FXML private HBox alertContainer;
     @FXML private Label alertLabel;
+    @FXML private ImageView imgEye;
+
+    private Image imgEyeOpen = new Image(getClass().getResourceAsStream("/img/eye.png"));
+    private Image imgEyeClosed = new Image(getClass().getResourceAsStream("/img/eyeslash.png"));
 
     @FXML
     public void initialize() {
+        imgEye.setImage(imgEyeOpen);
         // Configurar los elementos de alerta en CustomAlerts
         CustomAlerts.setAlertComponents(alertContainer, alertLabel);
     }
@@ -37,9 +44,10 @@ public class LoginController {
     private void handleLogin() {
         new Thread(() -> {
             boolean success = AuthService.login(emailField.getText(), passwordField.getText());
+            boolean success2 = AuthService.login(emailField.getText(), visiblePasswordField.getText());
 
             Platform.runLater(() -> {
-                if (success) {
+                if (success || success2) {
                     LoginResponse usuario = AuthService.getUsuarioLogueado();
                     if (usuario == null) {
                         CustomAlerts.mostrarError("Error al obtener datos del usuario");
@@ -92,22 +100,25 @@ public class LoginController {
     public void togglePasswordVisibility(ActionEvent actionEvent) {
         passwordVisible = !passwordVisible;
 
+        // Cambiar la imagen según el estado
+        if (passwordVisible) {
+            imgEye.setImage(imgEyeClosed); // Ojo cerrado
+        } else {
+            imgEye.setImage(imgEyeOpen); // Ojo abierto
+        }
+
         if (passwordVisible) {
             String password = passwordField.getText();
             visiblePasswordField.setText(password);
-
             visiblePasswordField.setVisible(true);
             visiblePasswordField.setManaged(true);
-
             passwordField.setVisible(false);
             passwordField.setManaged(false);
         } else {
             String password = visiblePasswordField.getText();
             passwordField.setText(password);
-
             passwordField.setVisible(true);
             passwordField.setManaged(true);
-
             visiblePasswordField.setVisible(false);
             visiblePasswordField.setManaged(false);
         }

@@ -27,16 +27,18 @@
 }
 .sidebar-button {
     -fx-background-color: transparent;
-    -fx-text-fill: rgba(255,255,255,.5);
-    -fx-font-size: 15px;
 }
-.sidebar-button:hover {
-  -fx-text-fill: white;
+.btn-text{
+    -fx-text-fill: rgba(255,255,255,.5);
+    -fx-font-size: 12px;
+}
+.btn-text:hover{
+    -fx-text-fill: white;
 }
 .sidebar-button .icono{
     -fx-fill: rgba(255,255,255,0.5);
 }
-.icono-btn-sidebar:hover .icono{
+.sidebar-button .icono:hover{
     -fx-fill: white;
 }
 /*tabpane*/
@@ -114,8 +116,4 @@
     -fx-opacity: 1;
     -fx-transition: opacity 0.3s ease;
 }
-.btn-hidden:hidden {
-    -fx-opacity: 0;
-    -fx-pref-width: 0;
-    -fx-pref-height: 0;
-}
+
