@@ -190,7 +190,7 @@ public class UsuarioController {
                         if (esAdminGlobalEditandoOtro) {
                             // Si es un admin global intentando editar otro admin global, mostrar botón pero con alerta
                             btnOpciones.setOnAction(e ->
-                                    CustomAlerts.mostrarError("No puedes editar a otro Admin Global")
+                                    mostrarError("No puedes editar a otro Admin Global")
                             );
                             setGraphic(btnOpciones);
                         } else {

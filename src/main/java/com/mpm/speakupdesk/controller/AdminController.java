@@ -1,5 +1,6 @@
 package com.mpm.speakupdesk.controller;
 
+import com.mpm.speakupdesk.MainApp;
 import com.mpm.speakupdesk.controller.alumno.AlumnoController;
 import com.mpm.speakupdesk.controller.instituto.InstitutoController;
 import com.mpm.speakupdesk.controller.modulo.ModuloController;
@@ -7,13 +8,19 @@ import com.mpm.speakupdesk.controller.usuario.UsuarioController;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
 import com.mpm.speakupdesk.model.*;
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
+import com.mpm.speakupdesk.service.AuthService;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class AdminController {
     // Componentes de la UI top bar
@@ -140,9 +147,11 @@ public class AdminController {
 
         btnPerfil.setOnMouseClicked(e -> contextMenu.show(btnPerfil, e.getScreenX(), e.getScreenY()));
     }
-    private void cerrarSesion() {
+
+    public void cerrarSesion() {
         boolean confirmacion = CustomAlerts.mostrarConfirmacion("Cerrar sesion", "¿Seguro que quieres cerrar la sesión?");
         if (confirmacion){
+
             System.out.println("Cerrando sesión...");
             Platform.runLater(() -> {
                 // Cerrar la ventana actual
@@ -152,6 +161,7 @@ public class AdminController {
             });
         }
     }
+
     @FXML
     public void abrirModalCrearInstituto(ActionEvent actionEvent) {
         institutoController.abrirModalCrearInstituto(stage);

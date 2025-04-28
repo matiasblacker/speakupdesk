@@ -1,6 +1,7 @@
 package com.mpm.speakupdesk.controller.usuario;
 
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
+import com.mpm.speakupdesk.controller.AdminController;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
 import com.mpm.speakupdesk.model.Usuario;
 import com.mpm.speakupdesk.service.AuthService;
@@ -22,7 +23,6 @@ public class PerfilUsuarioController {
     @FXML private Label lblRol;
     @FXML private Label lblColegio;
     private Stage stage;
-    private UsuarioController usuarioController;
 
     public void initData(LoginResponse usuario) {
         lblNombreCompleto.setText("Nombre: " + usuario.getNombre() + " " + usuario.getApellido());
@@ -38,7 +38,6 @@ public class PerfilUsuarioController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 
     public void actualizarPerfil(ActionEvent actionEvent) {
         try {
