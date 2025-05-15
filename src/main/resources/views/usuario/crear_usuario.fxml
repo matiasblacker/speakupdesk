@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="400" minHeight="400" spacing="10" style="-fx-padding: 20; -fx-background-color: white" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.usuario.CrearUsuarioController">
+<VBox minHeight="400" prefWidth="400" spacing="10" style="-fx-padding: 20; -fx-background-color: white" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.usuario.CrearUsuarioController">
 
     <Label alignment="CENTER" style="-fx-font-size: 20px; -fx-text-fill: #4e73df; -fx-font-weight: bold;" text="Crear Nuevo Usuario" />
 
@@ -23,7 +23,17 @@
         <!-- Campo de colegio (solo visible para ADMIN_GLOBAL creando ADMIN_COLEGIO) -->
         <VBox fx:id="colegioContainer" spacing="5">
             <Label text="Colegio:" />
-            <ComboBox fx:id="cbColegio" promptText="Seleccione una colegio"/>
+            <ComboBox fx:id="cbColegio" promptText="Seleccione un colegio" />
+        </VBox>
+        <!-- Campo de cursos (solo visible para ADMIN_COLEGIO creando PROFESOR) -->
+        <VBox fx:id="cursoContainer" spacing="5">
+            <Label text="Asignar cursos (opcional):" />
+            <ListView fx:id="lvCursos" prefHeight="123.0" prefWidth="360.0">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </ListView>
+            <Label text="Ctrl+Click para selección múltiple" style="-fx-font-size: 10px; -fx-font-style: italic;" />
         </VBox>
         <Region VBox.vgrow="ALWAYS" />
     </VBox>

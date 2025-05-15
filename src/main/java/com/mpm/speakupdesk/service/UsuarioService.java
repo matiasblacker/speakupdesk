@@ -13,11 +13,11 @@ import java.util.concurrent.CompletionException;
 
 public class UsuarioService {
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final OkHttpClient client = new OkHttpClient();
     private static final String API_URL = "http://localhost:8080/api/usuarios";
     // Crear usuario
-    public static CompletableFuture<Usuario> crearUsuario(Usuario usuario) {
+    public static CompletableFuture<Usuario> crearUsuario(Usuario usuario, List<Long> cursosIds) {
         return CompletableFuture.supplyAsync(() -> {
-            OkHttpClient client = new OkHttpClient();
             try {
                 Map<String, Object> requestBody = new HashMap<>();
                 requestBody.put("nombre", usuario.getNombre());
@@ -29,12 +29,15 @@ public class UsuarioService {
                 if (usuario.getColegioId() != null) {
                     requestBody.put("colegioId", usuario.getColegioId());
                 }
-
+                // Añadir los IDs de cursos si están disponibles
+                if (cursosIds != null && !cursosIds.isEmpty()) {
+                    requestBody.put("cursosIds", cursosIds);
+                }
                 String jsonBody = mapper.writeValueAsString(requestBody);
                 RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json"));
 
                 Request request = new Request.Builder()
-                        .url(API_URL + "/nuevousuario")
+                        .url(API_URL)
                         .post(body)
                         .addHeader("Authorization", "Bearer " + AuthService.getToken())
                         .build();
@@ -56,7 +59,6 @@ public class UsuarioService {
     //otener usuarios por colegio para el usuario admin_colegio
     public static CompletableFuture<List<Usuario>> getUsuariosByColegio(int colegioId) {
         return CompletableFuture.supplyAsync(() -> {
-            OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(API_URL + "/colegio/" + colegioId)
                     .addHeader("Authorization", "Bearer " + AuthService.getToken())
@@ -78,9 +80,6 @@ public class UsuarioService {
     //actualizar usuario
     public static CompletableFuture<Usuario> update(Usuario usuario) {
         return CompletableFuture.supplyAsync(() -> {
-            OkHttpClient client = new OkHttpClient();
-            ObjectMapper mapper = new ObjectMapper();
-
             try {
                 // Log antes de crear el JSON
                 System.out.println("Actualizando usuario ID: " + usuario.getId());

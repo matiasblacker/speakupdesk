@@ -21,10 +21,8 @@ import javafx.stage.Stage;
 import java.util.Comparator;
 
 public class AlumnosModuloController {
-    @FXML
-    private Label lblNombreCurso;
-    @FXML
-    private ListView<Alumno> listaAlumnos;
+    @FXML private Label lblNombreCurso;
+    @FXML private ListView<Alumno> listaAlumnos;
 
     private Stage stage;
     private Curso curso;
@@ -105,7 +103,7 @@ public class AlumnosModuloController {
             content.setPadding(new Insets(5, 10, 5, 10));
             content.setAlignment(Pos.CENTER_LEFT);
 
-            // El spacer ocupará todo el espacio disponible
+            // El spacer ocupará
             HBox.setHgrow(spacer, Priority.ALWAYS);
 
             // Añadir componentes al HBox

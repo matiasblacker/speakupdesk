@@ -108,11 +108,12 @@ public class ModuloController {
                 btnOpciones = new Button("⋮");
                 contextMenu = new ContextMenu();
 
-                MenuItem verListaItem = new MenuItem("Ver Alumnos");
+                MenuItem verListaItemProfesores = new MenuItem("Ver Profesores");
+                MenuItem verListaItemAlumnos = new MenuItem("Ver Alumnos");
                 MenuItem editarItem = new MenuItem("Editar");
                 MenuItem eliminarItem = new MenuItem("Eliminar");
 
-                contextMenu.getItems().addAll(verListaItem,editarItem, eliminarItem);
+                contextMenu.getItems().addAll(verListaItemProfesores,verListaItemAlumnos,editarItem, eliminarItem);
                 // Estilos y configuración del botón
                 btnOpciones.getStyleClass().add("btn-opciones-celda");
             }
@@ -127,9 +128,10 @@ public class ModuloController {
                     Curso curso = getTableView().getItems().get(getIndex());
                     if (curso != null) {
                         // Configuración normal para otros casos
-                        contextMenu.getItems().get(0).setOnAction(event -> verListaModulo(curso));
-                        contextMenu.getItems().get(1).setOnAction(event -> editarModulo(curso));
-                        contextMenu.getItems().get(2).setOnAction(event -> eliminarModulo(curso));
+                        contextMenu.getItems().get(0).setOnAction(event -> verListaProfesores(curso));
+                        contextMenu.getItems().get(1).setOnAction(event -> verListaModulo(curso));
+                        contextMenu.getItems().get(2).setOnAction(event -> editarModulo(curso));
+                        contextMenu.getItems().get(3).setOnAction(event -> eliminarModulo(curso));
 
                         btnOpciones.setOnAction(e ->
                                 contextMenu.show(btnOpciones, Side.BOTTOM, 0, 0)
@@ -139,9 +141,33 @@ public class ModuloController {
                     }
                 }
             }
+
         });
         // Añadir la columna al final
         modulosTable.getColumns().add(colOpciones);
+    }
+
+    //carga la lista de profesores asignados al curso
+    private void verListaProfesores(Curso curso) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/modulo/profesores_modulo.fxml"));
+            Parent root = loader.load();
+
+            ProfesoresModuloController controller = loader.getController();
+            controller.initData(curso);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(curso.getNombre());
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            controller.setStage(stage);
+            stage.showAndWait();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //cargar la lsita de alumnos en el curso

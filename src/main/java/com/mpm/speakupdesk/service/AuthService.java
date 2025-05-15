@@ -12,6 +12,7 @@ public class AuthService {
     private static final OkHttpClient client = new OkHttpClient();
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final String BASE_URL = "http://localhost:8080/api/auth";
+    private static final String DB_PATH = "speakuplocal.db";
 
     public static boolean login(String email, String password) {
         try {
@@ -45,14 +46,15 @@ public class AuthService {
     public static void logout() {
         usuarioLogueado = null;
     }
-
     // Obtener datos del usuario logueado
     public static LoginResponse getUsuarioLogueado() {
         return usuarioLogueado;
     }
-
     // Obtener token JWT
     public static String getToken() {
         return (usuarioLogueado != null) ? usuarioLogueado.getToken() : null;
     }
+
+    //metodos offline
+
 }

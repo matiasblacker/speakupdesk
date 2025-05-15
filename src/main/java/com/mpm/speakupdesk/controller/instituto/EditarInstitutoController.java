@@ -107,7 +107,7 @@ public class EditarInstitutoController {
                 region == null ||
                 comuna == null) {
 
-            CustomAlerts.mostrarError("Todos los campos son obligatorios");
+            CustomAlerts.mostrarAdvertencia("Todos los campos son obligatorios");
             return false;
         }
         return true;

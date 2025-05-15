@@ -47,6 +47,7 @@ public class UsuarioController {
     private int colegioId;
     private LoginResponse usuarioLogueado;
 
+
     public UsuarioController(TableView<Usuario> usuariosTable,
                           TableColumn<Usuario, Long> colId,
                           TableColumn<Usuario, String> colNombre,
@@ -287,7 +288,7 @@ public class UsuarioController {
                 //llamada al endpoint de eliminacion de usuarios
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("http://localhost:8080/api/usuarios/eliminar/" + usuario.getId())
+                        .url("http://localhost:8080/api/usuarios/" + usuario.getId())
                         .delete()
                         .addHeader("Authorization", "Bearer " + AuthService.getToken())
                         .build();

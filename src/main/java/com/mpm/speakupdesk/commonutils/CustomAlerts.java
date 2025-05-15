@@ -1,11 +1,14 @@
 package com.mpm.speakupdesk.commonutils;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -50,11 +53,36 @@ public class CustomAlerts {
 
         Platform.runLater(() -> {
             alertLabel.setText(message);
-            alertContainer.getStyleClass().clear();
-            alertContainer.getStyleClass().setAll("alert-box");
-            alertContainer.getStyleClass().addAll(styleClasses);
-            alertContainer.setVisible(true);
 
+            alertContainer.getStyleClass().setAll("alert-box");
+            alertLabel.getStyleClass().setAll();
+            alertContainer.getStyleClass().addAll(styleClasses);
+            alertLabel.getStyleClass().add("alert-text");
+
+            // Crear el ícono según el tipo de alerta
+            FontAwesomeIconView icon = new FontAwesomeIconView();
+            icon.setGlyphSize(25);
+
+            // 🔹 Clase adicional según tipo
+            for (String style : styleClasses) {
+                if (styleClasses[0].contains("success")) {
+                    alertLabel.getStyleClass().add("alert-text1");
+                    icon.setIcon(FontAwesomeIcon.CHECK_CIRCLE);
+                    icon.setFill(Color.rgb(76, 175, 80, 0.8));
+                } else if (styleClasses[0].contains("warning")) {
+                    alertLabel.getStyleClass().add("alert-text2");
+                    icon.setIcon(FontAwesomeIcon.EXCLAMATION_TRIANGLE);
+                    icon.setFill(Color.rgb(212, 154, 6));
+                } else if (styleClasses[0].contains("danger")) {
+                    icon.setIcon(FontAwesomeIcon.EXCLAMATION_CIRCLE);
+                    icon.setFill(Color.WHITE);
+                }
+            }
+            // Combinar el ícono con el texto
+            alertLabel.setText(message);
+            alertLabel.setGraphic(icon);
+
+            alertContainer.setVisible(true);
             // Ocultar después de 3 segundos
             new Thread(() -> {
                 try {
@@ -68,12 +96,8 @@ public class CustomAlerts {
     }
 
     // 🔹 Alerta de Éxito y Error con Mensaje Personalizado
-    public static void mostrarExito(String mensaje) {
-        showAlert(mensaje, "alert-success", "alert-text");
-    }
-
-    public static void mostrarError(String mensaje) {
-        showAlert(mensaje, "alert-danger", "alert-text");
-    }
+    public static void mostrarExito(String mensaje) {showAlert(mensaje, "alert-success", "alert-text");}
+    public static void mostrarError(String mensaje) {showAlert(mensaje, "alert-danger", "alert-text");}
+    public static void mostrarAdvertencia(String mensaje){ showAlert(mensaje, "alert-warning", "alert-text"); }
 }
 

@@ -89,7 +89,6 @@
     -fx-background-color: #f44336;
 }
 .estado-activo, .estado-inactivo{
-    -fx-text-fill: white;
     -fx-alignment: CENTER;
     -fx-padding: 2px 5px; /* Espaciado alrededor del texto */
     -fx-background-radius: 20px; /* Radio del borde redondeado */

@@ -51,7 +51,7 @@ public class ColegioService {
                         MediaType.parse("application/json; charset=utf-8")
                 );
                 Request request = new Request.Builder()
-                        .url(API_URL + "/nuevocolegio")
+                        .url(API_URL)
                         .addHeader("Authorization", "Bearer " + AuthService.getToken())
                         .post(body)
                         .build();

@@ -152,7 +152,7 @@ public class AdminController {
         boolean confirmacion = CustomAlerts.mostrarConfirmacion("Cerrar sesion", "¿Seguro que quieres cerrar la sesión?");
         if (confirmacion){
 
-            System.out.println("Cerrando sesión...");
+            //System.out.println("Cerrando sesión...");
             Platform.runLater(() -> {
                 // Cerrar la ventana actual
                 if (stage != null) {
@@ -191,7 +191,7 @@ public class AdminController {
             moduloController.loadModulos();
             alumnoController.loadAlumnos();
         }
-        System.out.println("tablas actualizadas");
+        //System.out.println("tablas actualizadas");
         CustomAlerts.mostrarExito("Tablas actualizadas");
     }
 

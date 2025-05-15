@@ -87,7 +87,7 @@ public class CrearAlumnoController {
         }
 
         if (errores.length() > 0) {
-            CustomAlerts.mostrarError("Campos incompletos");
+            CustomAlerts.mostrarAdvertencia("Campos incompletos");
             return false;
         }
 
@@ -103,7 +103,7 @@ public class CrearAlumnoController {
 
             Curso cursoSeleccionado = cbCurso.getValue();
             if (cursoSeleccionado == null) {
-                CustomAlerts.mostrarError("Debe seleccionar un curso");
+                CustomAlerts.mostrarAdvertencia("Debe seleccionar un curso");
                 return;
             }
 

@@ -8,6 +8,7 @@ public class Curso {
     private String nombre;
     private Long colegioId;
 
+
     public Curso() {
     }
 

@@ -44,7 +44,7 @@ public class CrearModuloController {
 
     private boolean validarDatos(){
         if(txtNombreModulo.getText().isEmpty()){
-            CustomAlerts.mostrarError("Nombre del módulo es obligatorio");
+            CustomAlerts.mostrarAdvertencia("Nombre del módulo es obligatorio");
             return false;
         }
         return true;

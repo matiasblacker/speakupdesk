@@ -48,7 +48,7 @@ public class EditarModuloController {
     private boolean validarCampos(){
         String nombreModulo = txtNombreModulo.getText();
         if (nombreModulo == null){
-            CustomAlerts.mostrarError("El campo es obligatorio");
+            CustomAlerts.mostrarAdvertencia("El campo es obligatorio");
         }
         return true;
     }

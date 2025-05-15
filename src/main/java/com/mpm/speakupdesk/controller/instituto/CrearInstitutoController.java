@@ -101,7 +101,7 @@ public class CrearInstitutoController {
         }
 
         if (errores.length() > 0) {
-            CustomAlerts.mostrarError("Campos incompletos");
+            CustomAlerts.mostrarAdvertencia("Campos incompletos");
             return false;
         }
         return true;

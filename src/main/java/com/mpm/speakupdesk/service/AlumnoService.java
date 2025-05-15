@@ -51,7 +51,7 @@ public class AlumnoService {
     //listar todos los alumnos
     public static CompletableFuture<List<Alumno>> findAll(){
         return CompletableFuture.supplyAsync(() -> {
-            OkHttpClient client = new OkHttpClient();
+
             Request request = new Request.Builder()
                     .url(API_URL) // Nuevo endpoint en el backend
                     .addHeader("Authorization", "Bearer " + AuthService.getToken())
@@ -70,7 +70,6 @@ public class AlumnoService {
     //listar los alumnos del curso seleccionado
     public static CompletableFuture<List<Alumno>> findByCursoId(Long cursoId) {
         return CompletableFuture.supplyAsync(() -> {
-            OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(API_URL + "/curso/" + cursoId)
                     .addHeader("Authorization", "Bearer " + AuthService.getToken())

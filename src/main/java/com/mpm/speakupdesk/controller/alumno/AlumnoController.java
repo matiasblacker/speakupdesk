@@ -78,7 +78,7 @@ public class AlumnoController {
         });
     }
 
-    public void loadAlumnosByCurso(Long cursoId){  //para cargar los alumno del curso
+    /*public void loadAlumnosByCurso(Long cursoId){  //para cargar los alumno del curso
         CompletableFuture<List<Alumno>> cargaAlumnos = AlumnoService.findByCursoId(cursoId);
         cargaAlumnos.thenAccept(alumnos ->{
             Platform.runLater(()->{
@@ -90,7 +90,7 @@ public class AlumnoController {
             Platform.runLater(() -> mostrarError("Error: " + e.getCause().getMessage()));
             return null;
         });
-    }
+    }*/
 
 
     private void configurePagination(int totalItems) {

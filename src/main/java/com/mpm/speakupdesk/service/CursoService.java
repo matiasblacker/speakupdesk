@@ -2,9 +2,13 @@ package com.mpm.speakupdesk.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mpm.speakupdesk.dto.response.ProfesorSimpleResponseDTO;
 import com.mpm.speakupdesk.model.Curso;
+import com.mpm.speakupdesk.model.Usuario;
 import okhttp3.*;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +45,7 @@ public class CursoService {
                     }
                 }
             } catch (Exception e) {
-                System.err.println("Error en la creacion del curso: " + e.getMessage());
+                //System.err.println("Error en la creacion del curso: " + e.getMessage());
                 throw new CompletionException("Error en la solicitud:" + e.getMessage(),e);
             }
         });
@@ -135,4 +139,29 @@ public class CursoService {
         });
     }
 
+    //buscar usuarios profesores por curso
+    public static CompletableFuture<List<ProfesorSimpleResponseDTO>>listarProfesoresDelCurso(Long cursoId){
+        return CompletableFuture.supplyAsync(() ->{
+            Request request = new Request.Builder()
+                    .url(API_URL + "/"+ cursoId + "/profesores")
+                    .addHeader("Authorization", "Bearer " + AuthService.getToken())
+                    .build();
+            try(Response response = client.newCall(request).execute()){
+                if(!response.isSuccessful()){
+                    String errorBody = response.body() != null ? response.body().string() : "";
+                    throw new IOException("Error HTTP: " + response.code() + " " + errorBody);
+                }
+                String jsonResponse = response.body().string();
+                // Manejar posibles respuestas nulas o vacías
+                if (jsonResponse == null || jsonResponse.trim().isEmpty()) {
+                    return new ArrayList<>();
+                }
+                return mapper.readValue(jsonResponse, new TypeReference<List<ProfesorSimpleResponseDTO>>() {});
+
+            } catch (Exception e) {
+                //System.err.println("Error al obtener profesores del curso: " + e.getMessage());
+                throw new CompletionException("Error al obtener profesores del curso: " + e.getMessage(), e);
+            }
+        });
+    }
 }

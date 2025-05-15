@@ -35,7 +35,7 @@
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <FontAwesomeIconView glyphName="BOOK" size="15" styleClass="icono" />
-                        <Label styleClass="btn-text" text="Crear Instituto">
+                        <Label styleClass="btn-text" text="Crear Institutos">
                             <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
@@ -51,7 +51,7 @@
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <FontAwesomeIconView glyphName="ADDRESS_BOOK" size="15" styleClass="icono" />
-                        <Label styleClass="btn-text" text="Crear Usuario">
+                        <Label styleClass="btn-text" text="Crear Usuarios">
                             <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
@@ -68,7 +68,7 @@
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <FontAwesomeIconView glyphName="BOOK" size="15" styleClass="icono" />
-                        <Label styleClass="btn-text" text="Crear Módulo">
+                        <Label styleClass="btn-text" text="Crear Módulos">
                             <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />

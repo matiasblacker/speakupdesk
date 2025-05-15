@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -21,74 +22,49 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LoginController {
-    @FXML
-    private TextField emailField;
+    @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private TextField visiblePasswordField;
-    private boolean passwordVisible = false;
     @FXML private HBox alertContainer;
     @FXML private Label alertLabel;
     @FXML private ImageView imgEye;
+    @FXML private Button loginButton; // Asegúrate de tener esta referencia en tu FXML
 
+    private boolean passwordVisible = false;
     private Image imgEyeOpen = new Image(getClass().getResourceAsStream("/img/eye.png"));
     private Image imgEyeClosed = new Image(getClass().getResourceAsStream("/img/eyeslash.png"));
 
     @FXML
     public void initialize() {
         imgEye.setImage(imgEyeOpen);
-        // Configurar los elementos de alerta en CustomAlerts
         CustomAlerts.setAlertComponents(alertContainer, alertLabel);
+        visiblePasswordField.setManaged(false); // Ocultar inicialmente el campo visible
     }
 
     @FXML
     private void handleLogin() {
+        // Validar campos vacíos
+        if (emailField.getText().isEmpty() ||
+                (passwordField.getText().isEmpty() && visiblePasswordField.getText().isEmpty())) {
+            CustomAlerts.mostrarError("Email y contraseña son requeridos");
+            return;
+        }
+
+        loginButton.setDisable(true); // Bloquear botón durante el login
+
         new Thread(() -> {
-            boolean success = AuthService.login(emailField.getText(), passwordField.getText());
-            boolean success2 = AuthService.login(emailField.getText(), visiblePasswordField.getText());
+            // Obtener contraseña según visibilidad
+            String password = passwordVisible ?
+                    visiblePasswordField.getText() :
+                    passwordField.getText();
+
+            boolean success = AuthService.login(emailField.getText(), password);
 
             Platform.runLater(() -> {
-                if (success || success2) {
-                    LoginResponse usuario = AuthService.getUsuarioLogueado();
-                    if (usuario == null) {
-                        CustomAlerts.mostrarError("Error al obtener datos del usuario");
-                        return;
-                    }
-                    // Obtener el rol desde LoginResponse ✅
-                    Rol rol = usuario.getRol();
+                loginButton.setDisable(false); // Rehabilitar botón
 
-                    String fxmlPath;
-                    // Asignar la vista correspondiente según el rol
-                    switch (rol) {
-                        case ADMIN_GLOBAL -> fxmlPath = "/views/dashboard/admin.fxml";
-                        case ADMIN_COLEGIO -> fxmlPath = "/views/dashboard/admin.fxml";
-                        default -> {
-                            CustomAlerts.mostrarError("Rol no válido: " + rol);
-                            return;
-                        }
-                    }
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-                        Parent root = loader.load();
-
-                        Stage newStage = new Stage();
-                        newStage.setScene(new Scene(root));
-                        newStage.setMaximized(true);
-                        newStage.setTitle("SpeakUP! - " + rol);
-                        newStage.show();
-
-                        // Cerrar la ventana de login
-                        Stage loginStage = (Stage) emailField.getScene().getWindow();
-                        loginStage.close();
-
-                        // Inyectar datos del usuario en el controlador de la vista
-                        if (rol == Rol.ADMIN_GLOBAL || rol == Rol.ADMIN_COLEGIO) {
-                            AdminController controller = loader.getController();
-                            controller.initData(usuario);
-                        }
-                    } catch (IOException e) {
-                        CustomAlerts.mostrarError("Error al cargar la interfaz: " + e.getMessage());
-                        e.printStackTrace();
-                    }
+                if (success) {
+                    handleLoginSuccess();
                 } else {
                     CustomAlerts.mostrarError("Credenciales incorrectas");
                 }
@@ -96,32 +72,68 @@ public class LoginController {
         }).start();
     }
 
+    private void handleLoginSuccess() {
+        try {
+            LoginResponse usuario = AuthService.getUsuarioLogueado();
+            if (usuario == null) {
+                CustomAlerts.mostrarError("Error al obtener datos del usuario");
+                return;
+            }
+
+            Rol rol = usuario.getRol();
+            String fxmlPath = switch (rol) {
+                case ADMIN_GLOBAL, ADMIN_COLEGIO -> "/views/dashboard/admin.fxml";
+                default -> {
+                    CustomAlerts.mostrarError("Rol no válido: " + rol);
+                    yield null;
+                }
+            };
+
+            if (fxmlPath != null) {
+                loadDashboard(fxmlPath, rol, usuario);
+            }
+        } catch (Exception e) {
+            CustomAlerts.mostrarError("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadDashboard(String fxmlPath, Rol rol, LoginResponse usuario) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent root = loader.load();
+
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+        newStage.setMaximized(true);
+        newStage.setTitle("SpeakUP! - " + rol);
+        newStage.show();
+
+        // Inyectar datos en el controlador
+        if (loader.getController() instanceof AdminController) {
+            ((AdminController) loader.getController()).initData(usuario);
+        }
+
+        // Cerrar ventana de login
+        Stage loginStage = (Stage) emailField.getScene().getWindow();
+        loginStage.close();
+    }
+
     @FXML
     public void togglePasswordVisibility(ActionEvent actionEvent) {
         passwordVisible = !passwordVisible;
 
-        // Cambiar la imagen según el estado
+        // Sincronizar contraseñas en ambos campos
         if (passwordVisible) {
-            imgEye.setImage(imgEyeClosed); // Ojo cerrado
+            visiblePasswordField.setText(passwordField.getText());
         } else {
-            imgEye.setImage(imgEyeOpen); // Ojo abierto
+            passwordField.setText(visiblePasswordField.getText());
         }
 
-        if (passwordVisible) {
-            String password = passwordField.getText();
-            visiblePasswordField.setText(password);
-            visiblePasswordField.setVisible(true);
-            visiblePasswordField.setManaged(true);
-            passwordField.setVisible(false);
-            passwordField.setManaged(false);
-        } else {
-            String password = visiblePasswordField.getText();
-            passwordField.setText(password);
-            passwordField.setVisible(true);
-            passwordField.setManaged(true);
-            visiblePasswordField.setVisible(false);
-            visiblePasswordField.setManaged(false);
-        }
+        // Cambiar visibilidad
+        imgEye.setImage(passwordVisible ? imgEyeClosed : imgEyeOpen);
+        visiblePasswordField.setVisible(passwordVisible);
+        visiblePasswordField.setManaged(passwordVisible);
+        passwordField.setVisible(!passwordVisible);
+        passwordField.setManaged(!passwordVisible);
     }
-
 }

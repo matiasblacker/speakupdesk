@@ -74,11 +74,11 @@ public class EditarUsuarioController {
             int longitud = pfNuevaContrasena.getLength();
 
             if (longitud < 8 || longitud > 16) {
-                CustomAlerts.mostrarError("La contraseña debe tener entre 8 y 16 caracteres.");
+                CustomAlerts.mostrarAdvertencia("La contraseña debe tener entre 8 y 16 caracteres.");
                 return; // <- Esto evita seguir si la contraseña es inválida
             }
 
-            System.out.println("Actualizando contraseña para usuario: " + usuarioActualizado.getEmail());
+            //System.out.println("Actualizando contraseña para usuario: " + usuarioActualizado.getEmail());
             usuarioActualizado.setPassword(pfNuevaContrasena.getText());
         }
 
@@ -86,7 +86,7 @@ public class EditarUsuarioController {
         UsuarioService.update(usuarioActualizado)
                 .thenAcceptAsync(updated -> Platform.runLater(() -> {
                     CustomAlerts.mostrarExito("Usuario actualizado con éxito");
-                    System.out.println("Usuario actualizado correctamente");
+                    //System.out.println("Usuario actualizado correctamente");
                     onUpdate.run();
                     stage.close();
                 }))
@@ -97,7 +97,7 @@ public class EditarUsuarioController {
                         // Verificar si es un error de email duplicado
                         if (errorMsg.contains("correo electrónico ya está registrado") ||
                                 errorMsg.contains("email ya está registrado")) {
-                            CustomAlerts.mostrarError("El email ingresado ya existe en el sistema. Por favor, utilice otro.");
+                            CustomAlerts.mostrarAdvertencia("El email ingresado ya existe en el sistema. Por favor, utilice otro.");
                         } else {
                             CustomAlerts.mostrarError("Error: " + errorMsg);
                         }
@@ -111,7 +111,7 @@ public class EditarUsuarioController {
                 txtApellido.getText().isEmpty() ||
                 txtEmail.getText().isEmpty()) {
 
-            CustomAlerts.mostrarError("Por favor completa todos los campos obligatorios.");
+            CustomAlerts.mostrarAdvertencia("Por favor completa todos los campos obligatorios.");
             return false;
         }
         return true;

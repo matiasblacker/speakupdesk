@@ -7,6 +7,7 @@ module com.mpm.speakupdesk {
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
     requires javafx.graphics;
+    requires static lombok;
 
     opens com.mpm.speakupdesk to javafx.fxml;
     // Abre el paquete del controlador para que FXML pueda acceder a los métodos anotados con @FXML

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Usuario {
     private Long id;
@@ -13,7 +15,8 @@ public class Usuario {
     private String email;
     private String password;
     private Rol rol;
-    private Long colegioId;;
+    private Long colegioId;
+    private List<Long> cursosIds;
     @JsonProperty("enabled")  // Mapea el campo "enabled" del JSON
     private boolean enabled;
     // Campo "estado" (no existe en el JSON, se calcula desde "enabled")
@@ -93,5 +96,11 @@ public class Usuario {
         return nombre + " " + apellido;
     }
 
+    public List<Long> getCursosIds() {
+        return cursosIds;
+    }
 
+    public void setCursosIds(List<Long> cursosIds) {
+        this.cursosIds = cursosIds;
+    }
 }
