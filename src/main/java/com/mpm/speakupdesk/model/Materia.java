@@ -3,13 +3,12 @@ package com.mpm.speakupdesk.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Curso {
+public class Materia {
     private Long id;
     private String nombre;
     private Long colegioId;
 
-
-    public Curso() {
+    public Materia() {
     }
 
     public Long getId() {
@@ -28,8 +27,8 @@ public class Curso {
         this.nombre = nombre;
     }
 
-    public Long getColegioId(Long colegioId) {
-        return this.colegioId;
+    public Long getColegioId() {
+        return colegioId;
     }
 
     public void setColegioId(Long colegioId) {

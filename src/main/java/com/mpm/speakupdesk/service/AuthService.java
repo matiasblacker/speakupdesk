@@ -12,7 +12,6 @@ public class AuthService {
     private static final OkHttpClient client = new OkHttpClient();
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final String BASE_URL = "http://localhost:8080/api/auth";
-    private static final String DB_PATH = "speakuplocal.db";
 
     public static boolean login(String email, String password) {
         try {

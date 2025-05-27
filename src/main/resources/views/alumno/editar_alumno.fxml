@@ -19,7 +19,7 @@
         <TextField fx:id="txtNumeroLista" />
 
         <Label text="Curso:" />
-        <ComboBox fx:id="cbCurso" />
+        <ComboBox fx:id="cbCurso" promptText="Seleccione un curso:"/>
 
     </VBox>
     <HBox alignment="CENTER_RIGHT" spacing="10">
@@ -28,7 +28,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Button onAction="#editarAlumno" styleClass="btn-reporte" text="Crear">
+        <Button onAction="#editarAlumno" styleClass="btn-reporte" text="Guardar">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>

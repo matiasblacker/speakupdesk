@@ -4,10 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import org.controlsfx.control.CheckListView?>
 <VBox xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.mpm.speakupdesk.controller.usuario.EditarUsuarioController"
-      prefWidth="400"
+      prefWidth="500"
       spacing="10"
       style="-fx-padding: 20;
       -fx-background-color: white"
@@ -30,7 +31,28 @@
         <ComboBox fx:id="cbEstado">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></ComboBox>
+         </cursor>
+        </ComboBox>
+        <!-- Campo de cursos (solo visible para ADMIN_COLEGIO creando PROFESOR) -->
+        <HBox fx:id="Container" prefWidth="Infinity" spacing="10">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Asignar cursos (opcional):" />
+                <CheckListView fx:id="clvCursos" prefHeight="123.0" prefWidth="180.0">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </CheckListView>
+            </VBox>
+
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Asignar materias (opcional):" />
+                <CheckListView fx:id="clvMaterias" prefHeight="123.0" prefWidth="180.0">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </CheckListView>
+            </VBox>
+        </HBox>
     </VBox>
 
     <HBox alignment="CENTER_RIGHT" spacing="10">

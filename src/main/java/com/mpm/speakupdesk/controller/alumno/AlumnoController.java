@@ -221,9 +221,43 @@ public class AlumnoController {
     }
 
     private void eliminarAlumno(Alumno alumno) {
+        boolean confirmacion = CustomAlerts.mostrarConfirmacion("Eliminar Alumno",
+                "¿Estás seguro de eliminar este Alumno?\n");
+        if (confirmacion){
+            AlumnoService.delete(alumno.getId())
+                    .thenAcceptAsync(v -> Platform.runLater(() ->{
+                        alumnosData.remove(alumno);
+                        CustomAlerts.mostrarExito("Alumno eliminado");
+                        configurePagination(alumnosData.size());
+                    }))
+                    .exceptionally(ex -> {
+                        Platform.runLater(() ->
+                                CustomAlerts.mostrarError("Error: " + ex.getCause().getMessage())
+                        );
+                        return null;
+                    });
+        }
     }
 
     private void editarAlumno(Alumno alumno) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/alumno/editar_alumno.fxml"));
+            Parent root = loader.load();
+
+            EditarAlumnoController controller= loader.getController();
+            controller.initData(alumno, this::loadAlumnos);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Editar Alumno");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            controller.setStage(stage);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            CustomAlerts.mostrarError("Error al cargar el editor");
+        }
     }
 
 

@@ -2,16 +2,24 @@ package com.mpm.speakupdesk.controller.usuario;
 
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
+import com.mpm.speakupdesk.model.Curso;
+import com.mpm.speakupdesk.model.Materia;
 import com.mpm.speakupdesk.model.Usuario;
 import com.mpm.speakupdesk.service.AuthService;
+import com.mpm.speakupdesk.service.CursoService;
+import com.mpm.speakupdesk.service.MateriaService;
 import com.mpm.speakupdesk.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.stage.Stage;
+import org.controlsfx.control.CheckListView;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditarUsuarioController {
     @FXML private TextField txtNombre;
@@ -19,6 +27,11 @@ public class EditarUsuarioController {
     @FXML private TextField txtEmail;
     @FXML private ComboBox<String> cbEstado;
     @FXML private PasswordField pfNuevaContrasena;
+
+    @FXML private CheckListView<Curso> clvCursos;
+    @FXML private CheckListView<Materia> clvMaterias;
+    private ObservableList<Curso> cursosDisponibles = FXCollections.observableArrayList();
+    private ObservableList<Materia> materiasDisponibles = FXCollections.observableArrayList();
 
     private boolean esAutoEdicion; // Indica si el usuario edita su propio perfil
     private boolean cambiarPassword = false;
@@ -33,25 +46,76 @@ public class EditarUsuarioController {
         pfNuevaContrasena.textProperty().addListener((observable, oldValue, newValue) -> {
             cambiarPassword = !newValue.isEmpty();
         });
+
+        configurarListas();
+    }
+
+    private void configurarListas() {
+        clvCursos.setCellFactory(CheckBoxListCell.forListView(clvCursos::getItemBooleanProperty));
+        clvMaterias.setCellFactory(CheckBoxListCell.forListView(clvMaterias::getItemBooleanProperty));
     }
 
     public void initData(Usuario usuario, Runnable onUpdate) {
         this.usuario = usuario;
         this.onUpdate = onUpdate;
-
         // Cargar datos del usuario
         txtNombre.setText(usuario.getNombre());
         txtApellido.setText(usuario.getApellido());
         txtEmail.setText(usuario.getEmail());
         cbEstado.getSelectionModel().select(usuario.isEnabled() ? "Activo" : "Inactivo");
-
         // Verificar si es auto-edición usando AuthService existente
         LoginResponse usuarioLogueado = AuthService.getUsuarioLogueado();
         esAutoEdicion = usuario.getId().equals(usuarioLogueado.getId());
-
         // Deshabilitar el campo de estado si es auto-edición
         if (esAutoEdicion) {
             cbEstado.setDisable(true);
+        }
+        cargarCursosYMaterias();
+    }
+
+    private void cargarCursosYMaterias() {
+        CursoService.findByColegioId()
+                .thenAccept(cursos -> Platform.runLater(() -> {
+                    cursosDisponibles.setAll(cursos);
+                    clvCursos.setItems(cursosDisponibles);
+                    // Esperar a que la lista esté visible en la UI
+                    seleccionarCursosDelUsuario();
+                }));
+
+        MateriaService.findByColegioId()
+                .thenAccept(materias -> Platform.runLater(() -> {
+                    materiasDisponibles.setAll(materias);
+                    clvMaterias.setItems(materiasDisponibles);
+                    seleccionarMateriasDelUsuario();
+                }));
+    }
+
+    private void seleccionarCursosDelUsuario() {
+        if (usuario.getCursosIds() == null || usuario.getCursosIds().isEmpty()) {
+            return;
+        }
+        // Usar el correcto para CheckListView
+        for (Long cursoId : usuario.getCursosIds()) {
+            cursosDisponibles.stream()
+                    .filter(c -> c.getId().equals(cursoId))
+                    .findFirst()
+                    .ifPresent(curso -> {
+                        clvCursos.getCheckModel().check(curso);
+                    });
+        }
+    }
+
+    private void seleccionarMateriasDelUsuario() {
+        if (usuario.getMateriasIds() == null || usuario.getMateriasIds().isEmpty()) {
+            return;
+        }
+        for (Long materiaId : usuario.getMateriasIds()) {
+            materiasDisponibles.stream()
+                    .filter(m -> m.getId().equals(materiaId))
+                    .findFirst()
+                    .ifPresent(materia -> {
+                        clvMaterias.getCheckModel().check(materia);
+                    });
         }
     }
 
@@ -82,7 +146,22 @@ public class EditarUsuarioController {
             usuarioActualizado.setPassword(pfNuevaContrasena.getText());
         }
 
-        System.out.println("Datos a enviar: " + usuarioActualizado);
+        List<Long> cursosSeleccionados = clvCursos.getCheckModel().getCheckedItems()
+                .stream()
+                .map(Curso::getId)
+                .collect(Collectors.toList());
+
+        List<Long> materiasSeleccionadas = clvMaterias.getCheckModel().getCheckedItems()
+                .stream()
+                .map(Materia::getId)
+                .collect(Collectors.toList());
+
+        usuarioActualizado.setCursosIds(cursosSeleccionados);
+        usuarioActualizado.setMateriasIds(materiasSeleccionadas);
+
+        System.out.println("Cursos seleccionados: " + cursosSeleccionados);
+        System.out.println("Materias seleccionadas: " + materiasSeleccionadas);
+
         UsuarioService.update(usuarioActualizado)
                 .thenAcceptAsync(updated -> Platform.runLater(() -> {
                     CustomAlerts.mostrarExito("Usuario actualizado con éxito");

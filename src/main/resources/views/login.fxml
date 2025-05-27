@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" spacing="15" styleClass="root" stylesheets="@../css/login.css , @../css/alert.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.LoginController">
+<VBox alignment="CENTER"
+      prefWidth="400"
+      prefHeight="640"
+      spacing="15"
+      styleClass="root"
+      stylesheets="@../css/login.css , @../css/alert.css , @../css/dashboard.css"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mpm.speakupdesk.controller.LoginController">
     <!-- Título del panel -->
     <ImageView fitHeight="80" fitWidth="80">
         <image>
             <Image url="@../img/usericon.png" />
         </image>
+      <VBox.margin>
+         <Insets top="30.0" />
+      </VBox.margin>
     </ImageView>
     <Region prefHeight="20" />
     <!-- Campo de email -->
     <TextField fx:id="emailField" alignment="CENTER" promptText="Email" styleClass="text-field" />
 
     <!-- Campo de contraseña con botón ojo -->
-    <HBox spacing="5" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+    <HBox maxWidth="Infinity" spacing="5" HBox.hgrow="ALWAYS">
         <StackPane HBox.hgrow="ALWAYS">
             <PasswordField fx:id="passwordField" alignment="CENTER" promptText="Contraseña" styleClass="password-field" StackPane.alignment="CENTER" />
             <!-- Campo visible: contraseña en texto normal -->
-            <TextField fx:id="visiblePasswordField" alignment="CENTER" promptText="Contraseña" styleClass="password-field"  visible="false" managed="false" StackPane.alignment="CENTER"/>
+            <TextField fx:id="visiblePasswordField" alignment="CENTER" managed="false" promptText="Contraseña" styleClass="password-field" visible="false" StackPane.alignment="CENTER" />
         </StackPane>
-        <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefWidth="50" prefHeight="50" styleClass="btn-eye">
+        <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefHeight="50" prefWidth="50" styleClass="btn-eye">
             <graphic>
-                <ImageView fitHeight="39.0" fitWidth="40.0" preserveRatio="true" fx:id="imgEye">
+                <ImageView fx:id="imgEye" fitHeight="39.0" fitWidth="40.0" preserveRatio="true">
 
                 </ImageView>
             </graphic>
@@ -35,19 +46,55 @@
             </cursor>
         </Button>
     </HBox>
-
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <CheckBox fx:id="rememberUserCheckBox" />
+        <Label text="Recordar usuario y contraseña" textFill="white" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </HBox>
     <!-- Botón de ingreso -->
-    <Region prefHeight="15" />
+    <Region prefHeight="5" />
     <Button fx:id="loginButton" onAction="#handleLogin" styleClass="btn-primary" text="Iniciar sesión" textFill="WHITE">
-        <font>
-            <Font size="14.0" />
-        </font>
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
     </Button>
+    <HBox alignment="CENTER">
+        <Button fx:id="forgotPass" onAction="#handleRecoverPassword" style="-fx-font-size: 15" styleClass="btn-transparent" text="Olvidaste tu contraseña?" textFill="white">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Button>
+        <ImageView fitHeight="30" fitWidth="30">
+            <image>
+                <Image url="@../img/help.png" />
+            </image>
+        </ImageView>
+    </HBox>
+    <VBox alignment="CENTER">
+        <Button fx:id="btnSend" onAction="#sendEmail" styleClass="btn-transparent">
+            <graphic>
+                <ImageView fitHeight="60" fitWidth="60" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/send.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Label text="Contáctame" textFill="white" />
+    </VBox>
     <!-- Contenedor de alerta -->
     <HBox fx:id="alertContainer" styleClass="alert-danger" visible="false">
         <Label fx:id="alertLabel" styleClass="alert-text" />
+      <VBox.margin>
+         <Insets bottom="15.0" />
+      </VBox.margin>
     </HBox>
 </VBox>

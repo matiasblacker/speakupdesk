@@ -34,12 +34,12 @@
             <Button fx:id="btnCrearInstituto" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearInstituto" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button, btn-hidden">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <FontAwesomeIconView glyphName="BOOK" size="15" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="BOOK" size="25" styleClass="icono" />
                         <Label styleClass="btn-text" text="Crear Institutos">
                             <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
-                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" styleClass="icono" />
                     </HBox>
                 </graphic>
                 <cursor>
@@ -50,12 +50,12 @@
             <Button fx:id="btnCrearUsuario" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearUsuario" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <FontAwesomeIconView glyphName="ADDRESS_BOOK" size="15" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="ADDRESS_BOOK" size="25" styleClass="icono" />
                         <Label styleClass="btn-text" text="Crear Usuarios">
                             <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
-                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" styleClass="icono" />
                     </HBox>
                 </graphic>
                 <cursor>
@@ -67,12 +67,28 @@
             <Button fx:id="btnCrearModulo" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearModulo" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <FontAwesomeIconView glyphName="BOOK" size="15" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="BOOK" size="25" styleClass="icono" />
                         <Label styleClass="btn-text" text="Crear Módulos">
                             <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
-                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" styleClass="icono" />
+                    </HBox>
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+
+            <Button fx:id="btnCrearMateria" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearMaterias" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
+                <graphic>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="BOOK" size="25" styleClass="icono" />
+                        <Label styleClass="btn-text" text="Crear Materias">
+                            <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" styleClass="icono" />
                     </HBox>
                 </graphic>
                 <cursor>
@@ -83,12 +99,12 @@
             <Button fx:id="btnCrearAlumnos" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalCrearAlumno" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <FontAwesomeIconView glyphName="CHILD" size="15" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="CHILD" size="25" styleClass="icono" />
                         <Label styleClass="btn-text" text="Crear Alumnos">
                             <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
-                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="20" styleClass="icono" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" styleClass="icono" />
                     </HBox>
                 </graphic>
                 <cursor>
@@ -98,6 +114,44 @@
             <Separator opacity="0.27" orientation="HORIZONTAL">
             <VBox.margin><Insets left="10.0" right="10.0" /></VBox.margin>
             </Separator>
+            <VBox>
+                <Label style="-fx-text-fill: #94abec" text="HERRAMIENTAS">
+                    <font><Font name="System Bold" size="12.0" /></font>
+                    <VBox.margin>
+                        <Insets left="10.0" />
+                    </VBox.margin>
+                </Label>
+            </VBox>
+            <Button fx:id="btnVerReportes" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalReportes" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
+                <graphic>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="FILE_TEXT" size="25" styleClass="icono" />
+                        <Label styleClass="btn-text" text="Ver Reportes">
+                            <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" styleClass="icono" />
+                    </HBox>
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <Button fx:id="btnPapelera" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#abrirModalPapelera" prefHeight="40" prefWidth="200.0" styleClass="sidebar-button">
+                <graphic>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <FontAwesomeIconView glyphName="TRASH" size="25" styleClass="icono" />
+                        <Label styleClass="btn-text" text="Ver Papelera">
+                            <HBox.hgrow><Priority fx:constant="ALWAYS" /></HBox.hgrow>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <FontAwesomeIconView glyphName="ANGLE_RIGHT" size="25" styleClass="icono" />
+                    </HBox>
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
         </VBox>
     </VBox>
     <!-- Contenido Principal -->
@@ -128,7 +182,7 @@
             </Button>
         </HBox>
 
-        <VBox spacing="20" style="-fx-padding: 20;">
+        <VBox spacing="15.0" style="-fx-padding: 20;">
             <!-- Título Dashboard -->
             <HBox alignment="CENTER_LEFT" prefWidth="960.0">
                 <Label style="-fx-font-size: 27px;" text="Dashboard" textFill="#5a5c69" />
@@ -142,8 +196,7 @@
                     </cursor>
                 </Button>
             </HBox>
-
-            <!-- Tabla de Usuarios -->
+            <!-- Tablas -->
             <VBox spacing="15" style="-fx-background-radius: 5px 5px 5px 5px; -fx-background-color: white" styleClass="sombra">
                 <!-- Header tabla -->
                 <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="960.0" spacing="10.0" style="-fx-background-color: #f8f9fc; -fx-background-radius: 5px 5px 0 0; -fx-border-color:#e3e6f0; -fx-border-width: 0 0 2px 0;">
@@ -173,7 +226,6 @@
                   <Insets bottom="15.0" top="15.0" />
                </padding>
                 </HBox>
-
                 <!-- TabPane para las tablas -->
                 <TabPane fx:id="tabPane" prefWidth="944.0" styleClass="tab-header-background" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <Tab fx:id="tabUsuarios" text="Usuarios">
@@ -231,6 +283,22 @@
                             <Pagination fx:id="paginationModulo" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
                         </VBox>
                     </Tab>
+                    <Tab fx:id="tabMaterias" text="Materias">
+                        <VBox spacing="10">
+                            <!-- Tabla de Materias -->
+                            <TableView fx:id="materiasTable" prefHeight="236.0" prefWidth="920.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colIdMateria" prefWidth="60" text="ID" />
+                                    <TableColumn fx:id="colNombreMateria" prefWidth="200.0" text="Nombre" />
+                                </columns>
+                                <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                </VBox.margin>
+                            </TableView>
+                            <!-- Paginación -->
+                            <Pagination fx:id="paginationMateria" prefHeight="49.0" prefWidth="960.0" style="-fx-padding: 10;" />
+                        </VBox>
+                    </Tab>
                     <Tab fx:id="tabAlumnos" text="Alumnos">
                         <VBox spacing="10">
                             <!-- Tabla de Alumnos -->
@@ -253,23 +321,23 @@
                       <Insets bottom="15.0" left="15.0" right="15.0" />
                    </VBox.margin>
                 </TabPane>
-
             </VBox>
-            <!-- Contenedor de alerta -->
-            <HBox fx:id="alertContainer" prefHeight="50" styleClass="alert-danger alert-text" visible="false" VBox.vgrow="SOMETIMES">
-                <Label fx:id="alertLabel" styleClass="alert-text" />
-            <VBox.margin>
-               <Insets />
-            </VBox.margin>
-            <padding>
-               <Insets bottom="15.0" top="15.0" />
-            </padding>
-            </HBox>
+
         </VBox>
+        <!-- Contenedor de alerta -->
+        <HBox fx:id="alertContainer" prefHeight="50" styleClass="alert-danger alert-text" visible="false" VBox.vgrow="SOMETIMES">
+            <Label fx:id="alertLabel" styleClass="alert-text" />
+            <padding>
+                <Insets bottom="15.0" top="15.0" />
+            </padding>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+        </HBox>
+        <Region VBox.vgrow="ALWAYS" />
         <!-- Bottom bar - Fijado en la parte inferior -->
         <HBox alignment="CENTER" prefHeight="80" spacing="20.0" style="-fx-background-color: white" styleClass="sombra">
-            <Label style="-fx-font-size: 14px; -fx-text-fill: #858796" text="© 2025 SpeakUP! Desk" />
-            <Label style="-fx-font-size: 14px; -fx-text-fill: #858796" text="Versión 1.0.0" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #858796" text="© 2025 SpeakUP! Desk Versión 1.0.0" />
             <Separator orientation="VERTICAL">
                 <HBox.margin><Insets top="15.0" /></HBox.margin>
                 <padding><Insets bottom="15.0" /></padding>

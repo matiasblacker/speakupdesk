@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="550" prefWidth="450" spacing="15" styleClass="root" stylesheets="@../css/login.css , @../css/alert.css , @../css/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mpm.speakupdesk.controller.RecoveryController">
+
+    <!-- Título del panel -->
+    <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Recuperar contraseña" textFill="white">
+        <VBox.margin>
+            <Insets top="30.0" />
+        </VBox.margin>
+    </Label>
+
+    <Region prefHeight="10" />
+    <!-- Campo de email -->
+    <VBox fx:id="emailPane" alignment="CENTER" spacing="5">
+        <Label style="-fx-font-size: 15" text="Correo electrónico" textFill="white" />
+        <TextField fx:id="emailField" alignment="CENTER" styleClass="text-field" />
+    </VBox>
+
+    <!-- Botón enviar código -->
+    <Button fx:id="sendCodeButton" onAction="#handleSendCode" prefHeight="45" styleClass="btn-primary" text="Enviar código" textFill="WHITE">
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+        <VBox.margin>
+            <Insets top="10.0" />
+        </VBox.margin>
+    </Button>
+
+    <!-- Sección de código (inicialmente oculta) -->
+    <VBox fx:id="codeVerificationPane" alignment="CENTER" spacing="15" visible="false">
+        <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Verificación de código" textFill="white" />
+
+        <Label style="-fx-font-size: 14;" text="Ingresa el código que recibiste en tu correo" textAlignment="JUSTIFY" textFill="white" wrapText="true">
+            <VBox.margin>
+                <Insets left="20.0" right="20.0" />
+            </VBox.margin>
+        </Label>
+
+        <TextField fx:id="codeField" alignment="CENTER" promptText="Código de 4 dígitos" styleClass="text-field" />
+
+        <Button fx:id="validateButton" onAction="#handleValidateCode" prefHeight="45" styleClass="btn-primary" text="Validar Código" textFill="WHITE">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <!-- Botón para volver a enviar código -->
+        <Button fx:id="resendCodeButton" onAction="#handleSendCode" styleClass="btn-transparent" text="Reenviar código" textFill="white">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </VBox>
+
+    <!-- Botón cancelar -->
+    <Button maxWidth="200" onAction="#handleCancel" styleClass="btn-transparent" text="Volver al login" textFill="white">
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </Button>
+
+    <!-- Contenedor de alerta -->
+    <HBox fx:id="alertContainer" styleClass="alert-danger" visible="false">
+        <Label fx:id="alertLabel" styleClass="alert-text" />
+        <VBox.margin>
+            <Insets bottom="15.0" />
+        </VBox.margin>
+    </HBox>
+</VBox>

@@ -1,8 +1,10 @@
-package com.mpm.speakupdesk.controller.modulo;
+package com.mpm.speakupdesk.controller.materia;
 
+import com.mpm.speakupdesk.controller.modulo.ProfesoresModuloController;
 import com.mpm.speakupdesk.dto.response.ProfesorSimpleResponseDTO;
 import com.mpm.speakupdesk.model.Curso;
-import com.mpm.speakupdesk.service.CursoService;
+import com.mpm.speakupdesk.model.Materia;
+import com.mpm.speakupdesk.service.MateriaService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,30 +22,27 @@ import javafx.stage.Stage;
 
 import java.util.Comparator;
 
-public class ProfesoresModuloController {
+public class ProfesoresMateriaController {
 
-    @FXML private Label lblNombreCurso;
+    @FXML private Label lblNombreMateria;
     @FXML private ListView<ProfesorSimpleResponseDTO> listaProfesores;
 
     private Stage stage;
-    //private Curso curso;
     private ObservableList<ProfesorSimpleResponseDTO> profesoresData = FXCollections.observableArrayList();
-
 
     public void initialize(){
         listaProfesores.setItems(profesoresData);
-        listaProfesores.setCellFactory(param -> new UsuarioListCell());
+        listaProfesores.setCellFactory(param -> new ProfesoresModuloController.UsuarioListCell());
+    }
+    public void initData(Materia materia) {
+
+        lblNombreMateria.setText("Profesores de: " + materia.getNombre());
+        //cargar profesores de la materia
+        cargarProfesoresDeMateria(materia.getId());
     }
 
-    public void initData(Curso curso) {
-        //this.curso = curso;
-        lblNombreCurso.setText("Profesores de: " + curso.getNombre());
-        //cargar profesores del curso
-        cargarProfesoresDeCurso(curso.getId());
-    }
-
-    private void cargarProfesoresDeCurso(Long cursoId) {
-        CursoService.listarProfesoresDelCurso(cursoId)
+    private void cargarProfesoresDeMateria(Long materiaId) {
+        MateriaService.listarProfesoresDeLaMateria(materiaId)
                 .thenAccept(profesores -> {
                     Platform.runLater(() -> {
                         //System.out.println("Profesores recibidos: " + profesores.size()); // ✅ Log frontend
@@ -71,7 +70,7 @@ public class ProfesoresModuloController {
                 });
     }
 
-    public static class UsuarioListCell extends ListCell<ProfesorSimpleResponseDTO>{
+    public static class UsuarioListCell extends ListCell<ProfesorSimpleResponseDTO> {
         private final HBox content = new HBox();;
         private final Label nombre = new Label();;
         private final Label email = new Label();;
@@ -102,7 +101,6 @@ public class ProfesoresModuloController {
             }
         }
     }
-
 
     @FXML
     public void cerrarModal(ActionEvent actionEvent) {

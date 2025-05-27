@@ -13,6 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CrearAlumnoController {
 
     @FXML private TextField txtNombreAlumno;
@@ -50,7 +53,13 @@ public class CrearAlumnoController {
         CursoService.findByColegioId()
                 .thenAccept(listaCursos -> {
                     Platform.runLater(() -> {
-                        cursos.addAll(listaCursos);
+                        // Filtrar el curso especial
+                        List<Curso> cursosFiltrados = listaCursos.stream()
+                                .filter(curso ->
+                                        !curso.getNombre().equalsIgnoreCase("Sin curso asignado")
+                                )
+                                .collect(Collectors.toList());
+                        cursos.addAll(cursosFiltrados);
                         cbCurso.setItems(cursos);
                     });
                 })

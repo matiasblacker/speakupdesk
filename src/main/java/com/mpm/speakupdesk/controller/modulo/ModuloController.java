@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import static com.mpm.speakupdesk.commonutils.CustomAlerts.mostrarError;
 
@@ -59,9 +60,13 @@ public class ModuloController {
         CompletableFuture<List<Curso>> cargaModulos = CursoService.findByColegioId();
         cargaModulos.thenAccept(modulos ->{
             Platform.runLater(()->{
-                modulosData.setAll(modulos);
+                // Filtrar el módulo especial
+                List<Curso> cursosFiltrados = modulos.stream()
+                        .filter(curso -> !curso.getNombre().equalsIgnoreCase("Sin curso asignado"))
+                        .collect(Collectors.toList());
+                modulosData.setAll(cursosFiltrados);
                 modulosTable.setItems(modulosData);
-                configurePagination(modulos.size());
+                configurePagination(cursosFiltrados.size());
             });
         }).exceptionally(e ->{
             Platform.runLater(() -> mostrarError("Error: " + e.getCause().getMessage()));
@@ -241,9 +246,13 @@ public class ModuloController {
         }
     }
     private void eliminarModulo(Curso curso) {
+        // Validar si es el curso protegido
+        if (curso.getNombre().equalsIgnoreCase("Sin curso asignado")) {
+            CustomAlerts.mostrarAdvertencia("No puedes eliminar este módulo especial.");
+            return;
+        }
         boolean confirmacion = CustomAlerts.mostrarConfirmacion("Eliminar Módulo",
-                "¿Estás seguro de eliminar este Módulo?\n" +
-                        "Se eliminarán también los Alumnos del curso");
+                "¿Estás seguro de eliminar este Módulo?\n");
         if(confirmacion){
             CursoService.delete(curso.getId())
                     .thenAcceptAsync(v -> Platform.runLater(() ->{
@@ -261,6 +270,11 @@ public class ModuloController {
     }
 
     private void editarModulo(Curso curso) {
+        // Validar si es el curso protegido
+        if (curso.getNombre().equalsIgnoreCase("Sin curso asignado")) {
+            CustomAlerts.mostrarAdvertencia("No puedes editar este módulo especial.");
+            return;
+        }
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/modulo/editar_modulo.fxml"));
             Parent root = loader.load();

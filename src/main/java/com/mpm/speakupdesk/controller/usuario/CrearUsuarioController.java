@@ -2,21 +2,20 @@ package com.mpm.speakupdesk.controller.usuario;
 
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
-import com.mpm.speakupdesk.model.Colegio;
-import com.mpm.speakupdesk.model.Curso;
-import com.mpm.speakupdesk.model.Rol;
-import com.mpm.speakupdesk.model.Usuario;
+import com.mpm.speakupdesk.model.*;
 import com.mpm.speakupdesk.service.ColegioService;
 import com.mpm.speakupdesk.service.CursoService;
+import com.mpm.speakupdesk.service.MateriaService;
 import com.mpm.speakupdesk.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.controlsfx.control.CheckListView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,32 +29,27 @@ public class CrearUsuarioController {
     @FXML private ComboBox<Colegio> cbColegio;
     @FXML private VBox colegioContainer; // Contenedor para el combo de colegio
 
-    @FXML private VBox cursoContainer;
-    @FXML private ListView<Curso> lvCursos;
+    @FXML private HBox Container;
+    @FXML private CheckListView<Curso> clvCursos;  // Cambiado de ListView a CheckListView
+    @FXML private CheckListView<Materia> clvMaterias;  // Cambiado de ListView a CheckListView
 
     private Stage stage;
     private Runnable onSuccess;
     private LoginResponse usuarioLogueado;
     private boolean mostrarCampoColegio = false;
     private boolean mostrarCampoCursos = false;
+    private boolean mostrarCampoMaterias = false;
+
     private ObservableList<Curso> cursosDisponibles = FXCollections.observableArrayList();
+    private ObservableList<Materia> materiasDisponibles = FXCollections.observableArrayList();
 
     @FXML public void initialize() {
         configurarComboBox();
-        configurarListaMultipleSeleccion();
+        configurarCheckListViews(); // Nuevo método para configurar CheckListViews
     }
 
-    private void configurarListaMultipleSeleccion() {
-        // Configurar ListView para permitir selección múltiple
-        lvCursos.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        // Personalizar celdas para mostrar solo el nombre del curso
-        lvCursos.setCellFactory(lv -> new ListCell<Curso>() {
-            @Override
-            protected void updateItem(Curso curso, boolean empty) {
-                super.updateItem(curso, empty);
-                setText(empty ? null : curso.getNombre());
-            }
-        });
+    private void configurarCheckListViews() {
+
     }
 
     public void initData(LoginResponse usuario, Runnable onSuccess) {
@@ -66,6 +60,7 @@ public class CrearUsuarioController {
         // Configurar visibilidad del campo colegio y contraseña
         configurarCampos();
     }
+
     private void configurarRolesDisponibles() {
         // Según el rol del usuario logueado, configuramos los roles que puede crear
         if (Rol.valueOf(String.valueOf(usuarioLogueado.getRol())) == Rol.ADMIN_COLEGIO) {
@@ -76,10 +71,12 @@ public class CrearUsuarioController {
 
             // Si es admin_colegio y va a crear profesor, mostrar cursos directamente
             mostrarCampoCursos = true;
-            if(cursoContainer != null) {
-                cursoContainer.setVisible(true);
-                cursoContainer.setManaged(true);
+            mostrarCampoMaterias = true;
+            if(Container != null) {
+                Container.setVisible(true);
+                Container.setManaged(true);
                 cargarCursosColegio();
+                cargarMateriasColegio();
             }
         } else if (Rol.valueOf(String.valueOf(usuarioLogueado.getRol())) == Rol.ADMIN_GLOBAL) {
             // Admin global puede crear admin global y admin colegio
@@ -87,6 +84,7 @@ public class CrearUsuarioController {
             cbRol.setValue(Rol.ADMIN_GLOBAL);
         }
     }
+
     private void configurarCampos() {
         // Para los profesores y admin_colegio, la contraseña se genera automáticamente
         cbRol.valueProperty().addListener((obs, oldVal, newVal) -> {
@@ -100,10 +98,14 @@ public class CrearUsuarioController {
 
             // Mostrar/ocultar selector de cursos solo para PROFESOR
             boolean mostrarCursos = (newVal == Rol.PROFESOR);
+            boolean mostrarMaterias = (newVal == Rol.PROFESOR);
             mostrarCampoCursos = mostrarCursos;
-            if (cursoContainer != null) {
-                cursoContainer.setVisible(mostrarCursos);
-                cursoContainer.setManaged(mostrarCursos);
+            mostrarCampoMaterias = mostrarMaterias;
+            if (Container != null) {
+                Container.setVisible(mostrarCursos);
+                Container.setManaged(mostrarCursos);
+                Container.setVisible(mostrarMaterias);
+                Container.setManaged(mostrarMaterias);
 
                 // Cargar cursos si es necesario y es un PROFESOR
                 if (mostrarCursos &&
@@ -127,27 +129,32 @@ public class CrearUsuarioController {
         // Configuración inicial para cursos
         boolean mostrarCursos = (cbRol.getValue() == Rol.PROFESOR);
         mostrarCampoCursos = mostrarCursos;
-        if(cursoContainer != null){
-            cursoContainer.setVisible(mostrarCursos);
-            cursoContainer.setManaged(mostrarCursos);
+
+        boolean mostrarMaterias = (cbRol.getValue() == Rol.PROFESOR);
+        mostrarCampoMaterias = mostrarMaterias;
+
+        if(Container != null){
+            Container.setVisible(mostrarCursos);
+            Container.setManaged(mostrarCursos);
+            Container.setVisible(mostrarMaterias);
+            Container.setManaged(mostrarMaterias);
 
             // Cargar los cursos si es PROFESOR y el usuario logueado es ADMIN_COLEGIO
-            if(mostrarCursos &&
+            if(mostrarCursos && mostrarMaterias &&
                     Rol.valueOf(String.valueOf(usuarioLogueado.getRol())) == Rol.ADMIN_COLEGIO) {
                 cargarCursosColegio();
             }
         }
     }
+
     private void cargarColegios() {
         ColegioService.findAll()
                 .thenAccept(colegios -> {
-                    //System.out.println("Colegios cargados: " + colegios.size());
                     Platform.runLater(() -> {
                         cbColegio.setItems(FXCollections.observableArrayList(colegios));
                     });
                 })
                 .exceptionally(e -> {
-                    //System.err.println("Error al cargar colegios: " + e.getMessage());
                     Platform.runLater(() ->
                             CustomAlerts.mostrarError("Error al cargar los colegios: " + e.getMessage())
                     );
@@ -161,17 +168,34 @@ public class CrearUsuarioController {
                     System.out.println("cursos cargados: " + cursos.size());
                     cursosDisponibles.setAll(cursos);
                     Platform.runLater(() -> {
-                        lvCursos.setItems(cursosDisponibles);
+                        clvCursos.setItems(cursosDisponibles); // Actualizado para CheckListView
                     });
                 })
                 .exceptionally(e ->{
-                    //System.err.println("Error al cargar cursos: " + e.getMessage());
                     Platform.runLater(() ->
                             CustomAlerts.mostrarError("Error al cargar los cursos: " + e.getMessage())
                     );
                     return null;
                 });
     }
+
+    private void cargarMateriasColegio() {
+        MateriaService.findByColegioId()
+                .thenAccept(materias -> {
+                    System.out.println("materias cargadas: " + materias.size());
+                    materiasDisponibles.setAll(materias);
+                    Platform.runLater(() -> {
+                        clvMaterias.setItems(materiasDisponibles); // Actualizado para CheckListView
+                    });
+                })
+                .exceptionally(e ->{
+                    Platform.runLater(() ->
+                            CustomAlerts.mostrarError("Error al cargar las materias: " + e.getMessage())
+                    );
+                    return null;
+                });
+    }
+
     private void configurarComboBox() {
         // Configurar ComboBox de Rol
         cbRol.setCellFactory(param -> new ListCell<Rol>() {
@@ -204,6 +228,7 @@ public class CrearUsuarioController {
             }
         });
     }
+
     @FXML
     private void crearUsuario() {
         if (!validarCampos()) return;
@@ -216,14 +241,24 @@ public class CrearUsuarioController {
         if (mostrarCampoColegio && cbColegio.getValue() != null) {
             nuevoUsuario.setColegioId(cbColegio.getValue().getId());
         }
-        // Obtener los cursos seleccionados
+
+        // Obtener los cursos seleccionados usando CheckListView
         List<Long> cursosSeleccionadosIds = null;
-        if (mostrarCampoCursos && !lvCursos.getSelectionModel().getSelectedItems().isEmpty()) {
-            cursosSeleccionadosIds = lvCursos.getSelectionModel().getSelectedItems().stream()
+        if (mostrarCampoCursos && !clvCursos.getCheckModel().getCheckedItems().isEmpty()) {
+            cursosSeleccionadosIds = clvCursos.getCheckModel().getCheckedItems().stream()
                     .map(Curso::getId)
                     .collect(Collectors.toList());
         }
-        UsuarioService.crearUsuario(nuevoUsuario, cursosSeleccionadosIds)
+
+        // Obtener las materias seleccionadas usando CheckListView
+        List<Long> materiasSeleccionadasIds = null;
+        if(mostrarCampoMaterias && !clvMaterias.getCheckModel().getCheckedItems().isEmpty()){
+            materiasSeleccionadasIds = clvMaterias.getCheckModel().getCheckedItems().stream()
+                    .map(Materia::getId)
+                    .collect(Collectors.toList());
+        }
+
+        UsuarioService.crearUsuario(nuevoUsuario, cursosSeleccionadosIds, materiasSeleccionadasIds)
                 .thenAccept(created -> Platform.runLater(() -> {
                     CustomAlerts.mostrarExito("Usuario creado exitosamente. Se envió una contraseña temporal al correo.");
                     if (onSuccess != null) onSuccess.run();
@@ -257,15 +292,18 @@ public class CrearUsuarioController {
         }
         return true;
     }
+
     @FXML
     private void cancelar() {
         cerrarModal();
     }
+
     private void cerrarModal() {
         if (stage != null) {
             stage.close();
         }
     }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }

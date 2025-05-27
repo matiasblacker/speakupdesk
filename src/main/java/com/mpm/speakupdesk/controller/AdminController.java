@@ -1,26 +1,20 @@
 package com.mpm.speakupdesk.controller;
 
-import com.mpm.speakupdesk.MainApp;
 import com.mpm.speakupdesk.controller.alumno.AlumnoController;
 import com.mpm.speakupdesk.controller.instituto.InstitutoController;
+import com.mpm.speakupdesk.controller.materia.MateriaController;
 import com.mpm.speakupdesk.controller.modulo.ModuloController;
 import com.mpm.speakupdesk.controller.usuario.UsuarioController;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
 import com.mpm.speakupdesk.model.*;
 import com.mpm.speakupdesk.commonutils.CustomAlerts;
-import com.mpm.speakupdesk.service.AuthService;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class AdminController {
     // Componentes de la UI top bar
@@ -36,10 +30,12 @@ public class AdminController {
     @FXML private Tab tabUsuarios;
     @FXML private Tab tabInstitutos;
     @FXML private Tab tabModulos;
+    @FXML private Tab tabMaterias;
     @FXML private Tab tabAlumnos;
     @FXML private Button btnCrearUsuario;
     @FXML private Button btnCrearInstituto;
     @FXML private Button btnCrearModulo;
+    @FXML private Button btnCrearMateria;
     @FXML private Button btnCrearAlumnos;
 
     // Tabla de usuarios
@@ -62,6 +58,11 @@ public class AdminController {
     @FXML private TableColumn<Curso, Long> colIdModulo;
     @FXML private TableColumn<Curso, String> colNombreModulo;
     @FXML private Pagination paginationModulo;
+    //tabla materias
+    @FXML private TableView<Materia> materiasTable;
+    @FXML private TableColumn<Materia, Long> colIdMateria;
+    @FXML private TableColumn<Materia, String> colNombreMateria;
+    @FXML private Pagination paginationMateria;
 
     //tabla alumnos
     @FXML private TableView<Alumno> alumnosTable;
@@ -82,6 +83,7 @@ public class AdminController {
     private UsuarioController usuarioController;
     private InstitutoController institutoController;
     private ModuloController moduloController;
+    private MateriaController materiaController;
     private AlumnoController alumnoController;
     //inicializacion de componentes
     public void initialize() {
@@ -92,6 +94,7 @@ public class AdminController {
         institutoController = new InstitutoController(institutosTable, colIdInstituto, colNombreInstituto, colRegion, colComuna, paginationInstitutos);
         moduloController = new ModuloController(modulosTable,colIdModulo,colNombreModulo,paginationModulo);
         alumnoController = new AlumnoController(alumnosTable,colIdAlumno,colNombreAlumno,colNumeroLista,colModulo,paginationAlumnos);
+        materiaController = new MateriaController(materiasTable,colIdMateria,colNombreMateria,paginationMateria);
         //carga la alertas
         CustomAlerts.setAlertComponents(alertContainer, alertLabel);
         lblRegistros.setText("Usuarios registrados");
@@ -106,7 +109,10 @@ public class AdminController {
             } else if (newTab.getText().equals("Módulos")) {
                 lblRegistros.setText("Módulos registrados");
                 moduloController.loadModulos();
-            }else if(newTab.getText().equals("Alumnos")){
+            } else if (newTab.getText().equals("Materias")) {
+                lblRegistros.setText("Materias registradas");
+                materiaController.loadMaterias();
+            } else if(newTab.getText().equals("Alumnos")){
                 lblRegistros.setText("Alumnos registrados");
                 alumnoController.loadAlumnos();
             }
@@ -177,6 +183,12 @@ public class AdminController {
     }
 
     @FXML
+    public void abrirModalCrearMaterias(ActionEvent actionEvent) {
+        materiaController.setUsuarioLogueado(usuarioLogueado);
+        materiaController.abrirModalCrearMateria(stage);
+    }
+
+    @FXML
     public void abrirModalCrearAlumno(ActionEvent actionEvent){
         alumnoController.setUsuarioLogueado(usuarioLogueado);
         alumnoController.abrirModalCrearAlumno(stage);
@@ -189,6 +201,7 @@ public class AdminController {
         } else if (usuarioLogueado.getRol() == Rol.ADMIN_COLEGIO) {
             usuarioController.loadUsuarios();
             moduloController.loadModulos();
+            materiaController.loadMaterias();
             alumnoController.loadAlumnos();
         }
         //System.out.println("tablas actualizadas");
@@ -199,17 +212,22 @@ public class AdminController {
     private void configurarUi() {
         if (usuarioLogueado.getRol() == Rol.ADMIN_GLOBAL) {
             //botones sidebar
+            updateButtonVisibility(btnCrearUsuario,tabUsuarios,tabPane, true);
             updateButtonVisibility(btnCrearInstituto,tabInstitutos,tabPane, true);
             updateButtonVisibility(btnCrearModulo,tabModulos,tabPane, false);
+            updateButtonVisibility(btnCrearMateria,tabMaterias,tabPane, false);
             updateButtonVisibility(btnCrearAlumnos,tabAlumnos,tabPane, false);
         } else if (usuarioLogueado.getRol() == Rol.ADMIN_COLEGIO) {
             //botones sidebar
+            updateButtonVisibility(btnCrearUsuario,tabUsuarios,tabPane, true);
             updateButtonVisibility(btnCrearModulo,tabModulos,tabPane, true);
+            updateButtonVisibility(btnCrearMateria,tabMaterias,tabPane, true);
             updateButtonVisibility(btnCrearAlumnos,tabAlumnos,tabPane,true);
             updateButtonVisibility(btnCrearInstituto,tabInstitutos,tabPane,false);
         } else {
             updateButtonVisibility(btnCrearInstituto,tabInstitutos,tabPane,false);
             updateButtonVisibility(btnCrearModulo,tabModulos,tabPane,false);
+            updateButtonVisibility(btnCrearMateria,tabMaterias,tabPane, false);
             updateButtonVisibility(btnCrearAlumnos,tabAlumnos,tabPane, false);
             updateButtonVisibility(btnCrearUsuario,tabUsuarios,tabPane, false);
         }
@@ -224,5 +242,13 @@ public class AdminController {
         } else if (!visible) {
             tabPane.getTabs().remove(tab);
         }
+    }
+
+    public void abrirModalReportes(ActionEvent actionEvent) {
+
+    }
+
+    public void abrirModalPapelera(ActionEvent actionEvent) {
+
     }
 }
