@@ -4,6 +4,7 @@ import com.mpm.speakupdesk.commonutils.CustomAlerts;
 import com.mpm.speakupdesk.dto.response.LoginResponse;
 import com.mpm.speakupdesk.model.Curso;
 import com.mpm.speakupdesk.model.Materia;
+import com.mpm.speakupdesk.model.Rol;
 import com.mpm.speakupdesk.model.Usuario;
 import com.mpm.speakupdesk.service.AuthService;
 import com.mpm.speakupdesk.service.CursoService;
@@ -67,16 +68,29 @@ public class EditarUsuarioController {
         LoginResponse usuarioLogueado = AuthService.getUsuarioLogueado();
         esAutoEdicion = usuario.getId().equals(usuarioLogueado.getId());
         // Deshabilitar el campo de estado si es auto-edición
+        if (esAutoEdicion && usuarioLogueado.getRol().equals(Rol.ADMIN_COLEGIO)) {
+            // Ocultar los CheckListViews y su contenedor (si existe)
+            clvCursos.setVisible(false);
+            clvCursos.setManaged(false);
+            clvMaterias.setVisible(false);
+            clvMaterias.setManaged(false);
+            System.out.println("Cursos y materias ocultados.");
+        } else {
+            cargarCursosYMaterias();
+        }
+        // Deshabilitar campo de estado si es auto-edición
         if (esAutoEdicion) {
             cbEstado.setDisable(true);
         }
-        cargarCursosYMaterias();
     }
 
     private void cargarCursosYMaterias() {
         CursoService.findByColegioId()
                 .thenAccept(cursos -> Platform.runLater(() -> {
-                    cursosDisponibles.setAll(cursos);
+                    List<Curso> cursosFiltrados = cursos.stream()
+                            .filter(curso -> !"Sin curso asignado".equals(curso.getNombre()))
+                            .collect(Collectors.toList());
+                    cursosDisponibles.setAll(cursosFiltrados);
                     clvCursos.setItems(cursosDisponibles);
                     // Esperar a que la lista esté visible en la UI
                     seleccionarCursosDelUsuario();

@@ -94,6 +94,10 @@ public class CrearUsuarioController {
             if (colegioContainer != null) {
                 colegioContainer.setVisible(mostrarColegio);
                 colegioContainer.setManaged(mostrarColegio);
+                // Cargar colegios si es necesario
+                if (mostrarColegio) {
+                    cargarColegios(); // Llamar a cargarColegios() aquí
+                }
             }
 
             // Mostrar/ocultar selector de cursos solo para PROFESOR
@@ -165,8 +169,11 @@ public class CrearUsuarioController {
     private void cargarCursosColegio(){
         CursoService.findByColegioId()
                 .thenAccept(cursos -> {
-                    System.out.println("cursos cargados: " + cursos.size());
-                    cursosDisponibles.setAll(cursos);
+                    // Filtrar el curso "Sin curso asignado"
+                    List<Curso> cursosFiltrados = cursos.stream()
+                            .filter(curso -> !"Sin curso asignado".equals(curso.getNombre()))
+                            .collect(Collectors.toList());
+                    cursosDisponibles.setAll(cursosFiltrados);
                     Platform.runLater(() -> {
                         clvCursos.setItems(cursosDisponibles); // Actualizado para CheckListView
                     });
